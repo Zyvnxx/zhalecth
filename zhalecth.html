@@ -226,6 +226,36 @@
             background-color: white;
         }
 
+        /*menu toggle*/
+        .menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: white;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+  }
+  .nav-links.active {
+    display: flex;
+  }
+}
+
+
         /* Katalog Produk */
         .products-section {
             margin-bottom: 50px;
@@ -476,6 +506,9 @@
             </nav>
         </div>
     </header>
+
+    <button class="menu-toggle">☰</button>
+
 
     <!-- Hero Section -->
     <section class="hero">
@@ -766,6 +799,14 @@
                 cartCount.textContent = count;
             });
         });
+
+
+        const toggleBtn = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+toggleBtn.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+});
+
     </script>
 </body>
 </html>
