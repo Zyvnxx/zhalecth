@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog T-Shirt Zhalecth</title>
+    <style>
+        /* Reset dan Styling Dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #8d8d8d;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #000000;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('https://image2url.com/images/1760191757663-7dd29d2d-9cfc-4abc-b87b-f2a761aa977c.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    padding: clamp(60px, 10vw, 120px) 20px;
+    text-align: center;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 70h;
+    box-sizing: border-box;
+    border-radius: 0x; /* Border bulat */
+    overflow: hidden; /* agar gambar tidak keluar dari border */
+}
+
+        /* Responsif untuk layar kecil */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 15px;
+                background-position: top;
+                min-height: 40vh;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Responsif untuk layar sangat kecil */
+        @media (max-width: 480px) {
+            .hero {
+                padding: 40px 10px;
+                min-height: 35vh;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #888888;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #747474;
+        }
+
+        /* Tentang Kami dan Kontak */
+        .about-section, .contact-section {
+            padding: 60px 0;
+            background-color: white;
+            margin-bottom: 40px;
+        }
+
+        .about-section .container, .contact-section .container {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .about-section p, .contact-section p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* Filter dan Pencarian */
+        .filters {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .search-bar {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            background-color: #747474;
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .filter-group h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .filter-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+        /* Katalog Produk */
+        .products-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .product-colors {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .color-option {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .color-option.active {
+            border-color: #747474;
+        }
+
+        .product-sizes {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .size-option {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .size-option.active {
+            background-color: #747474;
+            color: white;
+            border-color: #000000;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background-color: #747474;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #747474;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: #747474;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 14px;
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px 0;
+            }
+
+            .nav-links {
+                margin-top: 15px;
+            }
+
+            .nav-links li {
+                margin: 0 10px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .filter-options {
+                flex-direction: column;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+<header>
+    <div class="container">
+        <nav class="navbar">
+            <a href="#" class="logo">
+                <img src="https://image2url.com/images/1760191415800-020d5d37-a89c-4db2-b489-0c3b42a042b7.png" alt="Zhalecth Logo" style="height: 50px;">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#beranda">Beranda</a></li>
+                <li><a href="#products">Katalog</a></li>
+                <li><a href="#tentang">Tentang Kami</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+                <li class="cart-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count">0</span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="beranda">
+        <div class="container">
+            <h1>Koleksi T-Shirt Terbaru</h1>
+            <p>Temukan gaya terbaik dengan koleksi t-shirt premium kami. Desain unik, bahan nyaman, dan harga terjangkau.</p>
+            <a href="#products" class="btn">Lihat Katalog</a>
+        </div>
+    </section>
+
+    <!-- Tentang Kami -->
+    <section class="about-section" id="tentang">
+        <div class="container">
+            <h2 class="section-title">Tentang Zhalecth</h2>
+            <p>Zhalecth adalah toko online terpercaya untuk berbagai macam t-shirt berkualitas dengan desain terkini dan harga terjangkau. Kami berkomitmen untuk memberikan produk fashion yang tidak hanya stylish tetapi juga nyaman digunakan sehari-hari.</p>
+    </section>
+
+    <!-- Filter dan Pencarian -->
+    <div class="container">
+        <div class="filters">
+            <div class="search-bar">
+                <input type="text" placeholder="Cari t-shirt...">
+                <button>Cari</button>
+            </div>
+            <div class="filter-options">
+                <div class="filter-group">
+                    <h3>Kategori</h3>
+                    <select>
+                        <option value="">Semua Kategori</option>
+                        <option value="casual">Casual</option>
+                        <option value="sport">Sport</option>
+                        <option value="graphic">Graphic Tees</option>
+                        <option value="premium">Premium</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <h3>Ukuran</h3>
+                    <select>
+                        <option value="">Semua Ukuran</option>
+                        <option value="s">S</option>
+                        <option value="m">M</option>
+                        <option value="l">L</option>
+                        <option value="xl">XL</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <h3>Warna</h3>
+                    <select>
+                        <option value="">Semua Warna</option>
+                        <option value="hitam">Hitam</option>
+                        <option value="putih">Putih</option>
+                        <option value="abu">Abu-abu</option>
+                        <option value="navy">Navy</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <h3>Harga</h3>
+                    <select>
+                        <option value="">Semua Harga</option>
+                        <option value="murah">Rp 50.000 - 100.000</option>
+                        <option value="sedang">Rp 100.000 - 200.000</option>
+                        <option value="tinggi">Rp 200.000+</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Katalog Produk -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <h2 class="section-title">Koleksi T-Shirt Kami</h2>
+            <div class="products-grid">
+                <!-- Produk 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="T-Shirt Basic Hitam">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Basic Black Tee</h3>
+                        <p class="product-price">Rp 89.000</p>
+                        <div class="product-colors">
+                            <div class="color-option active" style="background-color: #000;"></div>
+                            <div class="color-option" style="background-color: #fff; border: 1px solid #ddd;"></div>
+                            <div class="color-option" style="background-color: #808080;"></div>
+                        </div>
+                        <div class="product-sizes">
+                            <div class="size-option">S</div>
+                            <div class="size-option active">M</div>
+                            <div class="size-option">L</div>
+                            <div class="size-option">XL</div>
+                        </div>
+                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+
+                <!-- Produk 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="T-Shirt Graphic">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Graphic Mountain Tee</h3>
+                        <p class="product-price">Rp 129.000</p>
+                        <div class="product-colors">
+                            <div class="color-option" style="background-color: #fff; border: 1px solid #ddd;"></div>
+                            <div class="color-option active" style="background-color: #1a237e;"></div>
+                            <div class="color-option" style="background-color: #b71c1c;"></div>
+                        </div>
+                        <div class="product-sizes">
+                            <div class="size-option">S</div>
+                            <div class="size-option">M</div>
+                            <div class="size-option active">L</div>
+                            <div class="size-option">XL</div>
+                        </div>
+                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+
+                <!-- Produk 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1574180045827-681f8a1a9622?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="T-Shirt Striped">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Striped Navy Tee</h3>
+                        <p class="product-price">Rp 99.000</p>
+                        <div class="product-colors">
+                            <div class="color-option" style="background-color: #1a237e;"></div>
+                            <div class="color-option" style="background-color: #000;"></div>
+                            <div class="color-option active" style="background-color: #0d47a1;"></div>
+                        </div>
+                        <div class="product-sizes">
+                            <div class="size-option">S</div>
+                            <div class="size-option">M</div>
+                            <div class="size-option">L</div>
+                            <div class="size-option active">XL</div>
+                        </div>
+                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+
+                <!-- Produk 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="T-Shirt Vintage">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Vintage Washed Tee</h3>
+                        <p class="product-price">Rp 149.000</p>
+                        <div class="product-colors">
+                            <div class="color-option active" style="background-color: #8d6e63;"></div>
+                            <div class="color-option" style="background-color: #4e342e;"></div>
+                            <div class="color-option" style="background-color: #3e2723;"></div>
+                        </div>
+                        <div class="product-sizes">
+                            <div class="size-option active">S</div>
+                            <div class="size-option">M</div>
+                            <div class="size-option">L</div>
+                            <div class="size-option">XL</div>
+                        </div>
+                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+
+                <!-- Produk 5 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="T-Shirt Sport">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Sport Performance Tee</h3>
+                        <p class="product-price">Rp 159.000</p>
+                        <div class="product-colors">
+                            <div class="color-option" style="background-color: #fff; border: 1px solid #ddd;"></div>
+                            <div class="color-option active" style="background-color: #000;"></div>
+                            <div class="color-option" style="background-color: #e53935;"></div>
+                        </div>
+                        <div class="product-sizes">
+                            <div class="size-option">S</div>
+                            <div class="size-option active">M</div>
+                            <div class="size-option">L</div>
+                            <div class="size-option">XL</div>
+                        </div>
+                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+
+                <!-- Produk 6 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="T-Shirt Oversized">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Oversized Comfort Tee</h3>
+                        <p class="product-price">Rp 119.000</p>
+                        <div class="product-colors">
+                            <div class="color-option active" style="background-color: #fff; border: 1px solid #ddd;"></div>
+                            <div class="color-option" style="background-color: #ff9800;"></div>
+                            <div class="color-option" style="background-color: #4caf50;"></div>
+                        </div>
+                        <div class="product-sizes">
+                            <div class="size-option">S</div>
+                            <div class="size-option">M</div>
+                            <div class="size-option active">L</div>
+                            <div class="size-option">XL</div>
+                        </div>
+                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontak -->
+    <section class="contact-section" id="kontak">
+        <div class="container">
+            <h2 class="section-title">Kontak Kami</h2>
+            <p>Email: info@Zhalecth.com</p>
+            <p>Telepon: (021) 1234-5678</p>
+            <p>Alamat: Jl. Fashion No. 123, Jakarta</p>
+            <p>Jam Operasional: Senin - Jumat, 09:00 - 17:00 WIB</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Tentang Zhalecth</h3>
+                    <p>Zhalecth adalah toko online terpercaya untuk berbagai macam t-shirt berkualitas dengan desain terkini dan harga terjangkau.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Kategori</h3>
+                    <ul>
+                        <li><a href="#">T-Shirt Casual</a></li>
+                        <li><a href="#">T-Shirt Sport</a></li>
+                        <li><a href="#">Graphic Tees</a></li>
+                        <li><a href="#">T-Shirt Premium</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Bantuan</h3>
+                    <ul>
+                        <li><a href="#">Cara Belanja</a></li>
+                        <li><a href="#">Pengembalian</a></li>
+                        <li><a href="#">Ukuran</a></li>
+                        <li><a href="#">Kontak Kami</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Kontak</h3>
+                    <ul>
+                        <li>Email: info@Zhalecth.com</li>
+                        <li>Telepon: (021) 1234-5678</li>
+                        <li>Alamat: Jl. Fashion No. 123, Jakarta</li>
+                    </ul>
+                </div>
+            </div>
+   </div>
+<footer>
+    <div class="footer-bottom" style="text-align: center;">
+        <p>&copy; <span id="year"></span> Zhalecth. All rights reserved.</p>
+    </div>
+</footer>
+
+    <script>
+        // Fungsi untuk mengaktifkan pilihan warna
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Hapus kelas active dari semua opsi warna di produk yang sama
+                const parentProduct = this.closest('.product-info');
+                parentProduct.querySelectorAll('.color-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                
+                // Tambahkan kelas active ke opsi yang diklik
+                this.classList.add('active');
+            });
+        });
+
+        // Fungsi untuk mengaktifkan pilihan ukuran
+        document.querySelectorAll('.size-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Hapus kelas active dari semua opsi ukuran di produk yang sama
+                const parentProduct = this.closest('.product-info');
+                parentProduct.querySelectorAll('.size-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                
+                // Tambahkan kelas active ke opsi yang diklik
+                this.classList.add('active');
+            });
+        });
+
+        // Fungsi untuk tombol tambah ke keranjang
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productTitle = this.closest('.product-info').querySelector('.product-title').textContent;
+                alert(`${productTitle} telah ditambahkan ke keranjang!`);
+                
+                // Update jumlah item di keranjang
+                const cartCount = document.querySelector('.cart-count');
+                let count = parseInt(cartCount.textContent);
+                count++;
+                cartCount.textContent = count;
+            });
+        });
+
+
+         // Auto-update copyright year
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+
+        document.querySelectorAll('header .nav-links a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const topPosition = target.offsetTop - headerHeight; // kompensasi header sticky
+
+                window.scrollTo({
+                    top: topPosition,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
