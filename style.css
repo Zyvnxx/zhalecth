@@ -1,0 +1,61 @@
+/* === COMPACT HEADER FOR MOBILE === */
+@media (max-width: 480px) {
+    .navbar {
+        padding: 10px 0;
+    }
+
+    .logo {
+        font-size: 18px;
+        flex: 1;
+    }
+
+    .nav-icons {
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .nav-icons i {
+        font-size: 16px;
+        padding: 6px;
+        background: var(--light);
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hamburger {
+        font-size: 18px;
+        margin-left: 10px;
+        padding: 5px;
+    }
+
+    /* Search bar position */
+    .search-bar.active {
+        width: 150px;
+        right: 0;
+        top: 110%;
+    }
+}
+
+@media (max-width: 360px) {
+    .logo {
+        font-size: 16px;
+    }
+
+    .nav-icons {
+        gap: 5px;
+    }
+
+    .nav-icons i {
+        font-size: 14px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .search-bar.active {
+        width: 130px;
+    }
+}
