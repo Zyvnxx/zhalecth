@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zhalecth - Pembayaran</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #333333;
+            --accent: #666666;
+            --light: #f5f5f5;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success: #28a745;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .back-link {
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        /* Payment Container */
+        .payment-container {
+            display: flex;
+            gap: 30px;
+            padding: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .payment-form {
+            flex: 2;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .order-summary {
+            flex: 1;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            align-self: flex-start;
+        }
+
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(102, 102, 102, 0.2);
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            margin: 25px 0;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .payment-option:hover {
+            border-color: var(--accent);
+        }
+
+        .payment-option.selected {
+            border-color: var(--accent);
+            background-color: rgba(102, 102, 102, 0.05);
+        }
+
+        .payment-radio {
+            margin-right: 15px;
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light);
+            border-radius: 6px;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        .payment-details {
+            flex: 1;
+        }
+
+        .payment-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .payment-desc {
+            font-size: 14px;
+            color: var(--accent);
+        }
+
+        /* Order Summary */
+        .order-items {
+            margin-bottom: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item-img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .order-item-details {
+            flex: 1;
+        }
+
+        .order-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .order-item-price {
+            color: var(--accent);
+        }
+
+        .order-item-quantity {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .order-summary-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-weight: 700;
+            font-size: 18px;
+            border-top: 2px solid var(--light);
+            margin-top: 10px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        /* Success Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            font-size: 60px;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .modal-text {
+            margin-bottom: 25px;
+            color: var(--secondary);
+        }
+
+        /* Empty Cart Message */
+        .empty-cart-message {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--accent);
+        }
+
+        .empty-cart-message i {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .payment-container {
+                flex-direction: column;
+            }
+            
+            .payment-form, .order-summary {
+                flex: none;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="azhalecth.html" class="logo">ZHALE<span>CTH</span></a>
+                <a href="azhalecth.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Kembali ke Beranda
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="payment-container">
+            <!-- Payment Form -->
+            <div class="payment-form">
+                <h2 class="section-title">Informasi Pembayaran</h2>
+                
+                <form id="payment-form">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Nama Lengkap</label>
+                        <input type="text" id="name" class="form-control" placeholder="Masukkan nama lengkap" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="Masukkan alamat email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Nomor Telepon</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="Masukkan nomor telepon" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="address">Alamat Pengiriman</label>
+                        <textarea id="address" class="form-control" rows="3" placeholder="Masukkan alamat lengkap pengiriman" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="city">Kota</label>
+                            <input type="text" id="city" class="form-control" placeholder="Masukkan kota" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="postal">Kode Pos</label>
+                            <input type="text" id="postal" class="form-control" placeholder="Masukkan kode pos" required>
+                        </div>
+                    </div>
+                    
+                    <h3 class="section-title">Metode Pembayaran</h3>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-option" data-method="credit">
+                            <input type="radio" name="payment-method" id="credit-card" class="payment-radio" checked>
+                            <div class="payment-icon">
+                                <i class="far fa-credit-card"></i>
+                            </div>
+                            <div class="payment-details">
+                                <div class="payment-name">Kartu Kredit / Debit</div>
+                                <div class="payment-desc">Visa, MasterCard, JCB</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-option" data-method="bank">
+                            <input type="radio" name="payment-method" id="bank-transfer" class="payment-radio">
+                            <div class="payment-icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="payment-details">
+                                <div class="payment-name">Transfer Bank</div>
+                                <div class="payment-desc">BCA, Mandiri, BNI, BRI</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-option" data-method="ewallet">
+                            <input type="radio" name="payment-method" id="e-wallet" class="payment-radio">
+                            <div class="payment-icon">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="payment-details">
+                                <div class="payment-name">E-Wallet</div>
+                                <div class="payment-desc">GoPay, OVO, DANA, LinkAja</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Credit Card Details -->
+                    <div id="credit-card-details" class="payment-details-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="card-number">Nomor Kartu</label>
+                                <input type="text" id="card-number" class="form-control" placeholder="1234 5678 9012 3456">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="card-name">Nama di Kartu</label>
+                                <input type="text" id="card-name" class="form-control" placeholder="Nama sesuai di kartu">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="expiry-date">Tanggal Kadaluarsa</label>
+                                <input type="text" id="expiry-date" class="form-control" placeholder="MM/YY">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="cvv">CVV</label>
+                                <input type="text" id="cvv" class="form-control" placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bank Transfer Details -->
+                    <div id="bank-transfer-details" class="payment-details-form" style="display: none;">
+                        <div class="form-group">
+                            <p>Silakan transfer ke rekening berikut:</p>
+                            <div style="background: var(--light); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                                <p><strong>Bank BCA</strong></p>
+                                <p>No. Rekening: 1234 5678 9012</p>
+                                <p>Atas Nama: PT. ZHALECTH INDONESIA</p>
+                                <p>Jumlah: <strong id="bank-amount">Rp 0</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- E-Wallet Details -->
+                    <div id="e-wallet-details" class="payment-details-form" style="display: none;">
+                        <div class="form-group">
+                            <p>Pilih e-wallet:</p>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <select id="ewallet-provider" class="form-control">
+                                        <option value="gopay">GoPay</option>
+                                        <option value="ovo">OVO</option>
+                                        <option value="dana">DANA</option>
+                                        <option value="linkaja">LinkAja</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p style="margin-top: 15px;">Anda akan diarahkan ke aplikasi e-wallet untuk menyelesaikan pembayaran.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 30px;">
+                        <button type="submit" class="btn btn-success" id="pay-button">
+                            <i class="fas fa-lock"></i> Bayar Sekarang
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h2 class="section-title">Ringkasan Pesanan</h2>
+                
+                <div class="order-items" id="order-items">
+                    <!-- Items will be populated by JavaScript -->
+                </div>
+                
+                <div class="order-summary-line">
+                    <span>Subtotal</span>
+                    <span id="subtotal">Rp 0</span>
+                </div>
+                
+                <div class="order-summary-line">
+                    <span>Biaya Pengiriman</span>
+                    <span id="shipping-cost">Rp 15.000</span>
+                </div>
+                
+                <div class="order-summary-line">
+                    <span>Pajak</span>
+                    <span id="tax">Rp 0</span>
+                </div>
+                
+                <div class="order-total">
+                    <span>Total</span>
+                    <span id="total-amount">Rp 0</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="modal-title">Pembayaran Berhasil!</h2>
+            <p class="modal-text">Terima kasih telah berbelanja di Zhalecth. Pesanan Anda sedang diproses dan akan dikirim segera.</p>
+            <div style="display: flex; gap: 10px;">
+                <a href="azhalecth.html" class="btn">Kembali ke Beranda</a>
+                <a href="#@" class="btn" style="background: var(--light); color: var(--primary);">Lihat Pesanan</a>
+            </div>
+        </div>
+    </div>
+
+<script src="payment.js"></script>
+</body>
+</html>

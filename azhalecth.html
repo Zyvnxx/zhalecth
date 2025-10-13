@@ -3,9 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Katalog T-Shirt Zhalecth</title>
+    <title>Zhalecth - Brands</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Reset dan Styling Dasar */
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #333333;
+            --accent: #666666;
+            --light: #f5f5f5;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,42 +24,48 @@
         }
 
         body {
-            background-color: #f8f9fa;
-            color: #333;
+            background-color: var(--light);
+            color: var(--primary);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
+            width: 90%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* Header */
+        /* Header Styles */
         header {
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(255, 255, 255, 0.95);
         }
 
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 20px 0;
+            transition: var(--transition);
         }
 
         .logo {
             font-size: 24px;
             font-weight: 700;
-            color: #000000;
+            color: var(--primary);
             text-decoration: none;
-        }
-
-        .logo span {
-            color: #8d8d8d;
         }
 
         .nav-links {
@@ -58,226 +74,573 @@
         }
 
         .nav-links li {
-            margin-left: 25px;
+            margin-left: 30px;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: #2c3e50;
+            color: var(--primary);
             font-weight: 500;
-            transition: color 0.3s;
+            transition: var(--transition);
+            position: relative;
         }
 
         .nav-links a:hover {
-            color: #000000;
+            color: var(--accent);
         }
 
-        .cart-icon {
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
             position: relative;
+        }
+
+        .nav-icons i {
+            font-size: 18px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .nav-icons i:hover {
+            color: var(--accent);
+        }
+
+        .hamburger {
+            display: none;
             cursor: pointer;
         }
 
-        .cart-count {
+        /* Search Bar */
+        .search-bar {
             position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: #e74c3c;
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 12px;
+            top: 100%;
+            right: 0;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            overflow: hidden;
+            width: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            z-index: 1001;
+        }
+
+        .search-bar.active {
+            width: 250px;
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background-color: var(--white);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1002;
+            transition: var(--transition);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--light);
         }
 
-.hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                url('https://image2url.com/images/1760191757663-7dd29d2d-9cfc-4abc-b87b-f2a761aa977c.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: white;
-    padding: clamp(60px, 10vw, 120px) 20px;
-    text-align: center;
-    margin-bottom: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 70h;
-    box-sizing: border-box;
-    border-radius: 0x; /* Border bulat */
-    overflow: hidden; /* agar gambar tidak keluar dari border */
-}
-
-        /* Responsif untuk layar kecil */
-        @media (max-width: 768px) {
-            .hero {
-                padding: 60px 15px;
-                background-position: top;
-                min-height: 40vh;
-            }
-
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
+        .cart-header h2 {
+            font-size: 22px;
         }
 
-        /* Responsif untuk layar sangat kecil */
-        @media (max-width: 480px) {
-            .hero {
-                padding: 40px 10px;
-                min-height: 35vh;
-            }
-
-            .hero h1 {
-                font-size: 1.5rem;
-            }
-
-            .hero p {
-                font-size: 0.9rem;
-            }
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--primary);
         }
 
-        .hero h1 {
-            font-size: 48px;
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .cart-item img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-details h4 {
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .cart-item-price {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .remove-item:hover {
+            color: #ff0000;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid var(--light);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .cart-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cart-actions .btn {
+            text-align: center;
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--accent);
+        }
+
+        /* User Panel */
+        .user-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background-color: var(--white);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1002;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-panel.active {
+            right: 0;
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .user-header h2 {
+            font-size: 22px;
+        }
+
+        .close-user {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .user-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 24px;
+            color: var(--accent);
+        }
+
+        .user-details h3 {
+            margin-bottom: 5px;
+        }
+
+        .user-details p {
+            color: var(--accent);
+            font-size: 14px;
+        }
+
+        .user-menu {
+            list-style: none;
+        }
+
+        .user-menu li {
+            margin-bottom: 10px;
+        }
+
+        .user-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .user-menu a:hover {
+            background-color: var(--light);
+        }
+
+        .user-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .login-form {
+            padding: 20px 0;
+        }
+
+        .form-group {
             margin-bottom: 20px;
         }
 
-        .hero p {
-            font-size: 20px;
-            max-width: 700px;
-            margin: 0 auto 30px;
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+        }
+
+        .forgot-password {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            background: linear-gradient(135deg, var(--white) 0%, var(--light) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+        }
+
+        .hero-text {
+            flex: 1;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .hero-text.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: var(--secondary);
+        }
+
+        .hero-image {
+            flex: 1;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.8s ease 0.3s;
+        }
+
+        .hero-image.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
         }
 
         .btn {
             display: inline-block;
-            background-color: #888888;
-            color: white;
             padding: 12px 30px;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
             border-radius: 5px;
-            text-decoration: none;
             font-weight: 600;
-            transition: background-color 0.3s;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
         }
 
         .btn:hover {
-            background-color: #747474;
+            background-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
-        /* Tentang Kami dan Kontak */
-        .about-section, .contact-section {
-            padding: 60px 0;
-            background-color: white;
-            margin-bottom: 40px;
-        }
-
-        .about-section .container, .contact-section .container {
-            max-width: 800px;
-            text-align: center;
-        }
-
-        .about-section p, .contact-section p {
-            font-size: 18px;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        /* Filter dan Pencarian */
-        .filters {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            margin-bottom: 30px;
-        }
-
-        .search-bar {
-            display: flex;
-            margin-bottom: 20px;
-        }
-
-        .search-bar input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px 0 0 5px;
-            font-size: 16px;
-        }
-
-        .search-bar button {
-            background-color: #747474;
-            color: white;
-            border: none;
-            padding: 0 20px;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-        }
-
-        .filter-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .filter-group {
-            flex: 1;
-            min-width: 150px;
-        }
-
-        .filter-group h3 {
-            font-size: 16px;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-
-        .filter-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: white;
-        }
-
-        /* Katalog Produk */
-        .products-section {
-            margin-bottom: 50px;
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background-color: var(--white);
         }
 
         .section-title {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: #2c3e50;
             text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-title.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--light);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .feature-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--secondary);
+        }
+
+        /* Products Section */
+        .products {
+            padding: 100px 0;
+            background-color: var(--light);
         }
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
         }
 
         .product-card {
-            background-color: white;
-            border-radius: 8px;
+            background-color: var(--white);
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .product-card.animate {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
 
         .product-image {
-            height: 250px;
+            height: 200px;
             overflow: hidden;
         }
 
@@ -285,444 +648,497 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s;
+            transition: var(--transition);
         }
 
         .product-card:hover .product-image img {
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
 
         .product-info {
             padding: 20px;
         }
 
-        .product-title {
-            font-size: 18px;
-            font-weight: 600;
+        .product-info h3 {
+            font-size: 20px;
             margin-bottom: 10px;
-            color: #2c3e50;
+        }
+
+        .product-info p {
+            color: var(--secondary);
+            margin-bottom: 15px;
         }
 
         .product-price {
-            font-size: 20px;
             font-weight: 700;
-            color: #e74c3c;
+            font-size: 18px;
             margin-bottom: 15px;
         }
 
-        .product-colors {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
+        /* Testimonials Section */
+        .testimonials {
+            padding: 100px 0;
+            background-color: var(--white);
         }
 
-        .color-option {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
+        .testimonials-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
         }
 
-        .color-option.active {
-            border-color: #747474;
+        .testimonial {
+            background-color: var(--light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
         }
 
-        .product-sizes {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
+        .testimonial.animate {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .size-option {
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            font-size: 14px;
-            cursor: pointer;
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 18px;
         }
 
-        .size-option.active {
-            background-color: #747474;
-            color: white;
-            border-color: #000000;
-        }
-
-        .add-to-cart {
-            width: 100%;
-            background-color: #2c3e50;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
+        .testimonial-author {
             font-weight: 600;
-            transition: background-color 0.3s;
         }
 
-        .add-to-cart:hover {
-            background-color: #747474;
+        .testimonial-role {
+            color: var(--accent);
+            font-size: 14px;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background-color: var(--primary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .cta-content.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        .cta .btn {
+            background-color: var(--white);
+            color: var(--primary);
+        }
+
+        .cta .btn:hover {
+            background-color: var(--accent);
+            color: var(--white);
         }
 
         /* Footer */
         footer {
-            background-color: #2c3e50;
-            color: white;
-            padding: 50px 0 20px;
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 60px 0 30px;
         }
 
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
         .footer-column h3 {
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 20px;
             position: relative;
-            padding-bottom: 10px;
         }
 
         .footer-column h3::after {
             content: '';
             position: absolute;
-            left: 0;
-            bottom: 0;
             width: 40px;
             height: 2px;
-            background-color: #747474;
+            background-color: var(--white);
+            bottom: -8px;
+            left: 0;
         }
 
-        .footer-column ul {
+        .footer-links {
             list-style: none;
         }
 
-        .footer-column ul li {
+        .footer-links li {
             margin-bottom: 10px;
         }
 
-        .footer-column ul li a {
-            color: #bdc3c7;
+        .footer-links a {
+            color: var(--light);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: var(--transition);
         }
 
-        .footer-column ul li a:hover {
-            color: #747474;
+        .footer-links a:hover {
+            color: var(--white);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--white);
+            color: var(--primary);
+            transform: translateY(-5px);
         }
 
         .footer-bottom {
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #34495e;
-            color: #bdc3c7;
-            font-size: 14px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Responsif */
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text, .hero-image {
+                flex: none;
+                width: 100%;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+            }
+        }
+
         @media (max-width: 768px) {
             .navbar {
-                flex-direction: column;
                 padding: 15px 0;
             }
 
             .nav-links {
-                margin-top: 15px;
+                display: none;
             }
 
-            .nav-links li {
-                margin: 0 10px;
+            .hamburger {
+                display: block;
             }
 
-            .hero h1 {
-                font-size: 36px;
-            }
-
-            .hero p {
-                font-size: 18px;
-            }
-
-            .filter-options {
-                flex-direction: column;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-        }
-
-        @media (max-width: 480px) {
-            .products-grid {
-                grid-template-columns: 1fr;
+            .search-bar.active {
+                width: 200px;
             }
 
             .hero {
-                padding: 60px 0;
+                padding: 120px 0 80px;
             }
 
-            .hero h1 {
-                font-size: 28px;
+            .section-title h2 {
+                font-size: 30px;
             }
 
-            .hero p {
-                font-size: 16px;
+            .cart-sidebar, .user-panel {
+                max-width: 100%;
             }
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-<header>
-    <div class="container">
-        <nav class="navbar">
-            <a href="#" class="logo">
-                <img src="https://image2url.com/images/1760191415800-020d5d37-a89c-4db2-b489-0c3b42a042b7.png" alt="Zhalecth Logo" style="height: 50px;">
-            </a>
-            <ul class="nav-links">
-                <li><a href="#beranda">Beranda</a></li>
-                <li><a href="#products">Katalog</a></li>
-                <li><a href="#tentang">Tentang Kami</a></li>
-                <li><a href="#kontak">Kontak</a></li>
-                <li class="cart-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                    </svg>
-                    <span class="cart-count">0</span>
-                </li>
-            </ul>
-        </nav>
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">ZHALE<span style="color: var(--accent);">CTH</span></a>
+
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Product</a></li>
+                    <li><a href="#features">Feature</a></li>
+                    <li><a href="#testimonials">Testimonial</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+
+                <div class="nav-icons">
+                    <i class="fas fa-search" id="search-icon"></i>
+                    <div class="search-bar" id="search-bar">
+                        <input type="text" placeholder="Cari produk..." />
+                    </div>
+                    <i class="fas fa-shopping-cart" id="cart-icon"></i>
+                    <i class="fas fa-user" id="user-icon"></i>
+                </div>
+
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Keranjang Belanja</h2>
+            <button class="close-cart" id="close-cart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="empty-cart-message">
+                <p>Keranjang belanja Anda kosong</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total">Rp 0</span>
+            </div>
+            <!-- Di bagian cart actions, perbaiki link: -->
+            <div class="cart-actions">
+                <a href="payment.html" class="btn">Lanjutkan Pembayaran</a> 
+                <a href="#products" class="btn" style="background-color: var(--light); color: var(--primary);">Lanjutkan Belanja</a>
+            </div>
+        </div>
+    </div> <!-- Penutup untuk cart-sidebar -->
+
+ <!-- User Panel -->
+<div class="user-panel" id="user-panel">
+    <div class="user-header">
+        <h2>Akun Saya</h2>
+        <button class="close-user" id="close-user">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
-</header>
+    <div class="user-content">
+        <!-- User info when logged in -->
+        <div class="user-info" id="user-info">
+            <div class="user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="user-details">
+                <h3>Guest User</h3>
+                <p>guest@example.com</p>
+            </div>
+        </div>
+        
+        <!-- Login form when not logged in -->
+        <div class="login-form" id="login-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Masukkan email Anda" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password Anda" required>
+            </div>
+            <div class="form-options">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Ingat saya</label>
+                </div>
+                <a href="#@" class="forgot-password">Lupa password?</a>
+            </div>
+            <button class="btn" style="width: 100%;" id="login-btn">Masuk</button>
+            <div class="register-link">
+                <p>Belum punya akun? <a href="register.html" id="register-link">Daftar di sini</a></p>
+            </div>
+        </div>
+        
+        <!-- User menu when logged in -->
+        <ul class="user-menu" id="user-menu" style="display: none;">
+            <li><a href="#@"><i class="fas fa-user"></i> Profil Saya</a></li>
+            <li><a href="#@"><i class="fas fa-shopping-bag"></i> Pesanan Saya</a></li>
+            <li><a href="#@"><i class="fas fa-heart"></i> Wishlist</a></li>
+            <li><a href="#@"><i class="fas fa-map-marker-alt"></i> Alamat Saya</a></li>
+            <li><a href="#@"><i class="fas fa-cog"></i> Pengaturan</a></li>
+            <li><a href="#@" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
+        </ul>
+    </div>
+</div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
 
     <!-- Hero Section -->
-    <section class="hero" id="beranda">
+    <section class="hero" id="home">
         <div class="container">
-            <h1>Koleksi T-Shirt Terbaru</h1>
-            <p>Temukan gaya terbaik dengan koleksi t-shirt premium kami. Desain unik, bahan nyaman, dan harga terjangkau.</p>
-            <a href="#products" class="btn">Lihat Katalog</a>
-        </div>
-    </section>
-
-    <!-- Tentang Kami -->
-    <section class="about-section" id="tentang">
-        <div class="container">
-            <h2 class="section-title">Tentang Zhalecth</h2>
-            <p>Zhalecth adalah toko online terpercaya untuk berbagai macam t-shirt berkualitas dengan desain terkini dan harga terjangkau. Kami berkomitmen untuk memberikan produk fashion yang tidak hanya stylish tetapi juga nyaman digunakan sehari-hari.</p>
-    </section>
-
-    <!-- Filter dan Pencarian -->
-    <div class="container">
-        <div class="filters">
-            <div class="search-bar">
-                <input type="text" placeholder="Cari t-shirt...">
-                <button>Cari</button>
-            </div>
-            <div class="filter-options">
-                <div class="filter-group">
-                    <h3>Kategori</h3>
-                    <select>
-                        <option value="">Semua Kategori</option>
-                        <option value="casual">Casual</option>
-                        <option value="sport">Sport</option>
-                        <option value="graphic">Graphic Tees</option>
-                        <option value="premium">Premium</option>
-                    </select>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>ZHALECTH</h1>
+                    <p>Temukan produk berkualitas tinggi dengan desain minimalis yang cocok untuk gaya hidup modern Anda.</p>
+                    <a href="#products" class="btn">Jelajahi Produk</a>
                 </div>
-                <div class="filter-group">
-                    <h3>Ukuran</h3>
-                    <select>
-                        <option value="">Semua Ukuran</option>
-                        <option value="s">S</option>
-                        <option value="m">M</option>
-                        <option value="l">L</option>
-                        <option value="xl">XL</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <h3>Warna</h3>
-                    <select>
-                        <option value="">Semua Warna</option>
-                        <option value="hitam">Hitam</option>
-                        <option value="putih">Putih</option>
-                        <option value="abu">Abu-abu</option>
-                        <option value="navy">Navy</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <h3>Harga</h3>
-                    <select>
-                        <option value="">Semua Harga</option>
-                        <option value="murah">Rp 50.000 - 100.000</option>
-                        <option value="sedang">Rp 100.000 - 200.000</option>
-                        <option value="tinggi">Rp 200.000+</option>
-                    </select>
+                <div class="hero-image">
+                    <img src="https://image2url.com/images/1760314721988-e760d164-39e0-43d5-91c5-3eca8b5a2b87.png" alt="Produk Utama">
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Katalog Produk -->
-    <section class="products-section" id="products">
+    <!-- Products Section -->
+    <section class="products" id="products">
         <div class="container">
-            <h2 class="section-title">Koleksi T-Shirt Kami</h2>
+            <div class="section-title">
+                <h2>Produk Terbaru</h2>
+                <p>Temukan koleksi produk terbaru kami dengan kualitas terbaik</p>
+            </div>
+            
             <div class="products-grid">
-                <!-- Produk 1 -->
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="T-Shirt Basic Hitam">
+                        <img src="https://image2url.com/images/1760354225465-db3e0ce7-7cfa-45f6-9503-267a03d1433a.png" alt="Produk 1">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-title">Basic Black Tee</h3>
-                        <p class="product-price">Rp 89.000</p>
-                        <div class="product-colors">
-                            <div class="color-option active" style="background-color: #000;"></div>
-                            <div class="color-option" style="background-color: #fff; border: 1px solid #ddd;"></div>
-                            <div class="color-option" style="background-color: #808080;"></div>
-                        </div>
-                        <div class="product-sizes">
-                            <div class="size-option">S</div>
-                            <div class="size-option active">M</div>
-                            <div class="size-option">L</div>
-                            <div class="size-option">XL</div>
-                        </div>
-                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                        <h3>T-shirt Boxy</h3>
+                        <p>dengan desain minimalis dan elegan.</p>
+                        <div class="product-price">Rp 120.000</div>
+                        <a href="#" class="btn add-to-cart" data-name="T-Shirt #1" data-price="120000" data-image="https://image2url.com/images/1760354225465-db3e0ce7-7cfa-45f6-9503-267a03d1433a.png">Beli Sekarang</a>
                     </div>
                 </div>
-
-                <!-- Produk 2 -->
+                
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="T-Shirt Graphic">
+                        <img src="https://image2url.com/images/1760354416311-3598324f-7e7a-40bc-a210-3ef8a7f6e8b9.png" alt="Produk 2">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-title">Graphic Mountain Tee</h3>
-                        <p class="product-price">Rp 129.000</p>
-                        <div class="product-colors">
-                            <div class="color-option" style="background-color: #fff; border: 1px solid #ddd;"></div>
-                            <div class="color-option active" style="background-color: #1a237e;"></div>
-                            <div class="color-option" style="background-color: #b71c1c;"></div>
-                        </div>
-                        <div class="product-sizes">
-                            <div class="size-option">S</div>
-                            <div class="size-option">M</div>
-                            <div class="size-option active">L</div>
-                            <div class="size-option">XL</div>
-                        </div>
-                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                        <h3>T-Shirt Whiteney</h3>
+                        <p>nuansa modern dan kualitas bahan yang tinggi.</p>
+                        <div class="product-price">Rp 130.000</div>
+                        <a href="#" class="btn add-to-cart" data-name="T-Shirt #2" data-price="130000" data-image="https://image2url.com/images/1760354416311-3598324f-7e7a-40bc-a210-3ef8a7f6e8b9.png">Beli Sekarang</a>
                     </div>
                 </div>
-
-                <!-- Produk 3 -->
+                
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1574180045827-681f8a1a9622?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="T-Shirt Striped">
+                        <img src="https://image2url.com/images/1760354582661-54b2a3dd-0c17-49c7-b42e-8f448edb2119.png" alt="Produk 3">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-title">Striped Navy Tee</h3>
-                        <p class="product-price">Rp 99.000</p>
-                        <div class="product-colors">
-                            <div class="color-option" style="background-color: #1a237e;"></div>
-                            <div class="color-option" style="background-color: #000;"></div>
-                            <div class="color-option active" style="background-color: #0d47a1;"></div>
-                        </div>
-                        <div class="product-sizes">
-                            <div class="size-option">S</div>
-                            <div class="size-option">M</div>
-                            <div class="size-option">L</div>
-                            <div class="size-option active">XL</div>
-                        </div>
-                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                        <h3>T-Shirt Lover </h3>
+                        <p>Desain yang eyecatching bikin hari lu gaul</p>
+                        <div class="product-price">Rp 130.000</div>
+                        <a href="#" class="btn add-to-cart" data-name="T-Shirt #3" data-price="130000" data-image="https://image2url.com/images/1760354582661-54b2a3dd-0c17-49c7-b42e-8f448edb2119.png">Beli Sekarang</a>
                     </div>
                 </div>
-
-                <!-- Produk 4 -->
+                
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="T-Shirt Vintage">
+                        <img src="https://image2url.com/images/1760354702205-229bbc68-b27a-4f9c-80ca-5bd1f0c2f0f8.png" alt="Produk 4">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-title">Vintage Washed Tee</h3>
-                        <p class="product-price">Rp 149.000</p>
-                        <div class="product-colors">
-                            <div class="color-option active" style="background-color: #8d6e63;"></div>
-                            <div class="color-option" style="background-color: #4e342e;"></div>
-                            <div class="color-option" style="background-color: #3e2723;"></div>
-                        </div>
-                        <div class="product-sizes">
-                            <div class="size-option active">S</div>
-                            <div class="size-option">M</div>
-                            <div class="size-option">L</div>
-                            <div class="size-option">XL</div>
-                        </div>
-                        <button class="add-to-cart">Tambah ke Keranjang</button>
-                    </div>
-                </div>
-
-                <!-- Produk 5 -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="T-Shirt Sport">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Sport Performance Tee</h3>
-                        <p class="product-price">Rp 159.000</p>
-                        <div class="product-colors">
-                            <div class="color-option" style="background-color: #fff; border: 1px solid #ddd;"></div>
-                            <div class="color-option active" style="background-color: #000;"></div>
-                            <div class="color-option" style="background-color: #e53935;"></div>
-                        </div>
-                        <div class="product-sizes">
-                            <div class="size-option">S</div>
-                            <div class="size-option active">M</div>
-                            <div class="size-option">L</div>
-                            <div class="size-option">XL</div>
-                        </div>
-                        <button class="add-to-cart">Tambah ke Keranjang</button>
-                    </div>
-                </div>
-
-                <!-- Produk 6 -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="T-Shirt Oversized">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Oversized Comfort Tee</h3>
-                        <p class="product-price">Rp 119.000</p>
-                        <div class="product-colors">
-                            <div class="color-option active" style="background-color: #fff; border: 1px solid #ddd;"></div>
-                            <div class="color-option" style="background-color: #ff9800;"></div>
-                            <div class="color-option" style="background-color: #4caf50;"></div>
-                        </div>
-                        <div class="product-sizes">
-                            <div class="size-option">S</div>
-                            <div class="size-option">M</div>
-                            <div class="size-option active">L</div>
-                            <div class="size-option">XL</div>
-                        </div>
-                        <button class="add-to-cart">Tambah ke Keranjang</button>
+                        <h3>T-Shirt Zhale xxv</h3>
+                        <p>Dengan desain yang keren</p>
+                        <div class="product-price">Rp 200.000</div>
+                        <a href="#" class="btn add-to-cart" data-name="T-Shirt #4" data-price="200000" data-image="https://image2url.com/images/1760354702205-229bbc68-b27a-4f9c-80ca-5bd1f0c2f0f8.png">Beli Sekarang</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Kontak -->
-    <section class="contact-section" id="kontak">
+    <!-- Features Section -->
+    <section class="features" id="features">
         <div class="container">
-            <h2 class="section-title">Kontak Kami</h2>
-            <p>Email: info@Zhalecth.com</p>
-            <p>Telepon: (021) 1234-5678</p>
-            <p>Alamat: Jl. Fashion No. 123, Jakarta</p>
-            <p>Jam Operasional: Senin - Jumat, 09:00 - 17:00 WIB</p>
+            <div class="section-title">
+                <h2>Fitur Unggulan</h2>
+                <p>Kami menyediakan berbagai fitur terbaik untuk pengalaman pengguna yang optimal</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Banyak pilihan desain</h3>
+                    <p>Desain yang modern dan simple tapi sangat eyecatching</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3>Pengiriman Cepat</h3>
+                    <p>Pengiriman produk ke seluruh Indonesia dengan waktu yang cepat dan aman.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shirt"></i>
+                    </div>
+                    <h3>Bahan baju</h3>
+                    <p>Menggunakan bahan cutton combed 16s yang berbahan tebal tetapi tidak panas</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Apa Kata Pelanggan</h2>
+                <p>Lihat pengalaman nyata dari pelanggan yang telah menggunakan produk kami</p>
+            </div>
+            
+            <div class="testimonials-container">
+                <div class="testimonial">
+                    <p class="testimonial-text">"Produk dengan kualitas terbaik dan desain yang sangat elegan. Pengiriman juga sangat cepat!"</p>
+                    <p class="testimonial-author">Sarah Johnson</p>
+                    <p class="testimonial-role">Designer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="contact">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Siap Memulai Pengalaman Baru?</h2>
+                <p>Dapatkan produk terbaik dengan harga spesial untuk pembelian pertama Anda</p>
+                <a href="#@" class="btn">Dapatkan Sekarang</a>
+            </div>
         </div>
     </section>
 
@@ -731,105 +1147,55 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3>Tentang Zhalecth</h3>
-                    <p>Zhalecth adalah toko online terpercaya untuk berbagai macam t-shirt berkualitas dengan desain terkini dan harga terjangkau.</p>
+                    <h3>ZHALECTH</h3>
+                    <p>Perusahaan yang berfokus pada produk dengan desain minimalis dan elegan untuk gaya hidup modern.</p>
+                    <div class="social-links">
+                        <a href="#@"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#@"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/zhalecth/"><i class="fab fa-instagram"></i></a>
+                        <a href="#@"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
                 </div>
+                
                 <div class="footer-column">
-                    <h3>Kategori</h3>
-                    <ul>
-                        <li><a href="#">T-Shirt Casual</a></li>
-                        <li><a href="#">T-Shirt Sport</a></li>
-                        <li><a href="#">Graphic Tees</a></li>
-                        <li><a href="#">T-Shirt Premium</a></li>
+                    <h3>Tautan Cepat</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Feature</a></li>
+                        <li><a href="#products">Product</a></li>
+                        <li><a href="#testimonials">testimonial</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
+                
                 <div class="footer-column">
-                    <h3>Bantuan</h3>
-                    <ul>
-                        <li><a href="#">Cara Belanja</a></li>
-                        <li><a href="#">Pengembalian</a></li>
-                        <li><a href="#">Ukuran</a></li>
-                        <li><a href="#">Kontak Kami</a></li>
+                    <h3>Layanan</h3>
+                    <ul class="footer-links">
+                        <li><a href="#@">Pengiriman</a></li>
+                        <li><a href="#@">Garansi</a></li>
+                        <li><a href="#@">Pengembalian</a></li>
+                        <li><a href="#@">Pembayaran</a></li>
+                        <li><a href="#@">Bantuan</a></li>
                     </ul>
                 </div>
+                
                 <div class="footer-column">
                     <h3>Kontak</h3>
-                    <ul>
-                        <li>Email: info@Zhalecth.com</li>
-                        <li>Telepon: (021) 1234-5678</li>
-                        <li>Alamat: Jl. Fashion No. 123, Jakarta</li>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Serang, Indonesia</li>
+                        <li><i class="fas fa-phone"></i> +62 895 3007 6818</li>
+                        <li><i class="fas fa-envelope"></i> zhalecth@gmail.com</li>
                     </ul>
                 </div>
             </div>
-   </div>
-<footer>
-    <div class="footer-bottom" style="text-align: center;">
-        <p>&copy; <span id="year"></span> Zhalecth. All rights reserved.</p>
-    </div>
-</footer>
+            
+            <div class="footer-bottom">
+                 <p>&copy; <span id="year"></span> Zhalecth. All rights reserved.</p>
+            </div>
+        </div>
 
-    <script>
-        // Fungsi untuk mengaktifkan pilihan warna
-        document.querySelectorAll('.color-option').forEach(option => {
-            option.addEventListener('click', function() {
-                // Hapus kelas active dari semua opsi warna di produk yang sama
-                const parentProduct = this.closest('.product-info');
-                parentProduct.querySelectorAll('.color-option').forEach(opt => {
-                    opt.classList.remove('active');
-                });
-                
-                // Tambahkan kelas active ke opsi yang diklik
-                this.classList.add('active');
-            });
-        });
+    </footer>
 
-        // Fungsi untuk mengaktifkan pilihan ukuran
-        document.querySelectorAll('.size-option').forEach(option => {
-            option.addEventListener('click', function() {
-                // Hapus kelas active dari semua opsi ukuran di produk yang sama
-                const parentProduct = this.closest('.product-info');
-                parentProduct.querySelectorAll('.size-option').forEach(opt => {
-                    opt.classList.remove('active');
-                });
-                
-                // Tambahkan kelas active ke opsi yang diklik
-                this.classList.add('active');
-            });
-        });
-
-        // Fungsi untuk tombol tambah ke keranjang
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', function() {
-                const productTitle = this.closest('.product-info').querySelector('.product-title').textContent;
-                alert(`${productTitle} telah ditambahkan ke keranjang!`);
-                
-                // Update jumlah item di keranjang
-                const cartCount = document.querySelector('.cart-count');
-                let count = parseInt(cartCount.textContent);
-                count++;
-                cartCount.textContent = count;
-            });
-        });
-
-
-         // Auto-update copyright year
-  const yearEl = document.getElementById('year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-
-        document.querySelectorAll('header .nav-links a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                const headerHeight = document.querySelector('header').offsetHeight;
-                const topPosition = target.offsetTop - headerHeight; // kompensasi header sticky
-
-                window.scrollTo({
-                    top: topPosition,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
+ <script src="script.js"></script>
 </body>
 </html>
