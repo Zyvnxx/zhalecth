@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daftar - Akun</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Daftar - Akun</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* HANYA CSS KHUSUS register */
+        .character-section {
+            background: #f5f5f7;
+        }
     /* === RESET & DASAR === */
     * {
       margin: 0;
@@ -340,26 +345,126 @@
       display: none;
     }
 
-    /* === RESPONSIVE === */
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        width: 90%;
-        height: auto;
-      }
-
-      .register-section {
-        padding: 30px;
-      }
-
-      .emoji-group {
-        gap: 10px;
-      }
-
-      .shape {
-        transform: scale(0.8);
-      }
+/* === MOBILE RESPONSIVE FOR REGISTER === */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+        align-items: flex-start;
+        min-height: 100vh;
+        overflow-y: auto;
     }
+
+    .container {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        min-height: auto;
+        margin: 10px 0;
+    }
+
+    .character-section {
+        padding: 20px;
+        order: 2;
+    }
+
+    .register-section {
+        padding: 25px;
+        order: 1;
+    }
+
+    .character-title {
+        font-size: 18px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .emoji-group {
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .shape {
+        transform: scale(0.7);
+    }
+
+    .register-title {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .register-subtitle {
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .input-with-icon input {
+        padding: 12px 12px 12px 40px;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+
+    .register-button {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    /* Adjust character sizes for very small screens */
+    .orange { width: 80px; height: 40px; }
+    .purple { width: 60px; height: 100px; }
+    .black { width: 50px; height: 65px; }
+    .yellow { width: 55px; height: 80px; }
+}
+
+@media (max-width: 360px) {
+    .character-section {
+        padding: 15px;
+    }
+
+    .register-section {
+        padding: 20px;
+    }
+
+    .emoji-group {
+        gap: 5px;
+    }
+
+    .shape {
+        transform: scale(0.6);
+    }
+
+    .register-title {
+        font-size: 22px;
+    }
+}
+
+/* === LANDSCAPE MODE SUPPORT === */
+@media (max-height: 500px) and (orientation: landscape) {
+    body {
+        align-items: flex-start;
+        padding: 5px;
+    }
+
+    .container {
+        flex-direction: row;
+        height: auto;
+        min-height: 300px;
+    }
+
+    .character-section {
+        padding: 15px;
+    }
+
+    .register-section {
+        padding: 20px;
+    }
+
+    .emoji-group {
+        gap: 8px;
+    }
+
+    .shape {
+        transform: scale(0.6);
+    }
+}
   </style>
 </head>
 <body>

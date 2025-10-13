@@ -1,0 +1,58 @@
+/* === MOBILE RESPONSIVE - UNTUK SEMUA HALAMAN === */
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        padding: 0 15px;
+    }
+    
+    /* Header Mobile */
+    .navbar {
+        padding: 12px 0;
+    }
+    
+    .logo {
+        font-size: 20px;
+    }
+    
+    /* Hero Section Mobile */
+    .hero {
+        padding: 100px 0 60px;
+    }
+    
+    .hero-text h1 {
+        font-size: 28px;
+    }
+    
+    /* Products Mobile */
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* Payment Page Mobile */
+    .payment-container {
+        flex-direction: column;
+    }
+    
+    /* Register Page Mobile */
+    .register-container {
+        flex-direction: column;
+    }
+    
+    /* Cart & User Panel Mobile */
+    .cart-sidebar,
+    .user-panel {
+        max-width: 100%;
+    }
+}
+
+/* Tablet */
+@media (min-width: 481px) and (max-width: 768px) {
+    .container {
+        width: 92%;
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

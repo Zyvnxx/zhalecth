@@ -2,10 +2,15 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zhalecth - Brands</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     <style>
+        /* HANYA CSS KHUSUS untuk halaman ini */
+        .hero-image img {
+            border: 2px solid var(--accent);
+        }
         :root {
             --primary: #1a1a1a;
             --secondary: #333333;
@@ -838,52 +843,228 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .hero-content {
-                flex-direction: column;
-                text-align: center;
-            }
+/* === MOBILE RESPONSIVE STYLES === */
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        padding: 0 15px;
+    }
 
-            .hero-text, .hero-image {
-                flex: none;
-                width: 100%;
-            }
+    /* Header Mobile */
+    .navbar {
+        padding: 12px 0;
+    }
 
-            .hero-text h1 {
-                font-size: 36px;
-            }
-        }
+    .logo {
+        font-size: 20px;
+    }
 
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 15px 0;
-            }
+    .nav-icons {
+        gap: 15px;
+    }
 
-            .nav-links {
-                display: none;
-            }
+    .nav-icons i {
+        font-size: 16px;
+    }
 
-            .hamburger {
-                display: block;
-            }
+    /* Hero Section Mobile */
+    .hero {
+        padding: 100px 0 60px;
+    }
 
-            .search-bar.active {
-                width: 200px;
-            }
+    .hero-content {
+        gap: 30px;
+    }
 
-            .hero {
-                padding: 120px 0 80px;
-            }
+    .hero-text h1 {
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
 
-            .section-title h2 {
-                font-size: 30px;
-            }
+    .hero-text p {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
 
-            .cart-sidebar, .user-panel {
-                max-width: 100%;
-            }
-        }
+    .hero-image img {
+        border-radius: 8px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    /* Section Titles Mobile */
+    .section-title h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .section-title p {
+        font-size: 14px;
+        max-width: 100%;
+    }
+
+    /* Products Grid Mobile */
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .product-card {
+        margin: 0 10px;
+    }
+
+    .product-info h3 {
+        font-size: 18px;
+    }
+
+    .product-info p {
+        font-size: 14px;
+    }
+
+    .product-price {
+        font-size: 16px;
+    }
+
+    /* Features Grid Mobile */
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .feature-card {
+        padding: 20px;
+    }
+
+    .feature-icon {
+        font-size: 32px;
+    }
+
+    .feature-card h3 {
+        font-size: 18px;
+    }
+
+    /* Testimonials Mobile */
+    .testimonial {
+        padding: 20px;
+    }
+
+    .testimonial-text {
+        font-size: 16px;
+    }
+
+    /* CTA Section Mobile */
+    .cta h2 {
+        font-size: 24px;
+    }
+
+    .cta p {
+        font-size: 16px;
+    }
+
+    /* Footer Mobile */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .footer-column h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+
+    /* Cart Sidebar Mobile */
+    .cart-sidebar {
+        max-width: 100%;
+    }
+
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .cart-item img {
+        margin-right: 0;
+        width: 100px;
+        height: 100px;
+    }
+
+    .cart-actions {
+        gap: 8px;
+    }
+
+    /* User Panel Mobile */
+    .user-panel {
+        max-width: 100%;
+    }
+
+    .user-content {
+        padding: 15px;
+    }
+
+    /* Search Bar Mobile */
+    .search-bar.active {
+        width: 180px;
+        right: -50px;
+    }
+}
+
+/* === VERY SMALL SCREENS === */
+@media (max-width: 360px) {
+    .container {
+        width: 98%;
+        padding: 0 10px;
+    }
+
+    .hero-text h1 {
+        font-size: 24px;
+    }
+
+    .section-title h2 {
+        font-size: 22px;
+    }
+
+    .products-grid,
+    .features-grid {
+        gap: 15px;
+    }
+}
+
+/* === TABLET STYLES === */
+@media (min-width: 481px) and (max-width: 768px) {
+    .container {
+        width: 92%;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-text h1 {
+        font-size: 32px;
+    }
+}
+
+/* === VIEWPORT META TAG FIX === */
+@viewport {
+    width: device-width;
+    zoom: 1.0;
+    min-zoom: 0.25;
+    max-zoom: 2.0;
+    user-zoom: fixed;
+}
     </style>
 </head>
 <body>

@@ -2,10 +2,16 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zhalecth - Pembayaran</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     <style>
+        /* HANYA CSS KHUSUS payment */
+        .payment-container {
+            display: flex;
+            gap: 30px;
+        }
         :root {
             --primary: #1a1a1a;
             --secondary: #333333;
@@ -77,37 +83,113 @@
             color: var(--accent);
         }
 
-        /* Payment Container */
-        .payment-container {
-            display: flex;
-            gap: 30px;
-            padding: 40px 0;
-            flex-wrap: wrap;
-        }
+       /* === MOBILE RESPONSIVE FOR PAYMENT === */
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        padding: 0 15px;
+    }
 
-        .payment-form {
-            flex: 2;
-            background: var(--white);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: var(--shadow);
-        }
+    .payment-container {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px 0;
+    }
 
-        .order-summary {
-            flex: 1;
-            background: var(--white);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: var(--shadow);
-            align-self: flex-start;
-        }
+    .payment-form,
+    .order-summary {
+        flex: none;
+        padding: 20px;
+    }
 
-        .section-title {
-            font-size: 22px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--light);
-        }
+    .section-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        padding: 12px;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    /* Payment Methods Mobile */
+    .payment-option {
+        padding: 12px;
+    }
+
+    .payment-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+        margin-right: 12px;
+    }
+
+    .payment-name {
+        font-size: 14px;
+    }
+
+    .payment-desc {
+        font-size: 12px;
+    }
+
+    /* Order Summary Mobile */
+    .order-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .order-item-img {
+        margin-right: 0;
+        width: 80px;
+        height: 80px;
+    }
+
+    .order-item-name {
+        font-size: 16px;
+    }
+
+    .order-summary-line,
+    .order-total {
+        font-size: 14px;
+    }
+
+    /* Buttons Mobile */
+    .btn {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+
+    /* Modal Mobile */
+    .modal {
+        padding: 30px 20px;
+        width: 95%;
+    }
+
+    .modal-title {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 360px) {
+    .payment-form,
+    .order-summary {
+        padding: 15px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+}
 
         /* Form Styles */
         .form-group {
