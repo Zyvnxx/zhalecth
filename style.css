@@ -459,3 +459,23 @@
         color: var(--primary);
     }
 }
+
+/* Ensure user panel is closed by default */
+.user-panel {
+    right: -400px !important;
+}
+
+.user-panel.active {
+    right: 0 !important;
+}
+
+/* Ensure overlay is hidden by default */
+.overlay {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.overlay.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+}

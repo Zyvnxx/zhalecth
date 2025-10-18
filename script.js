@@ -1,3 +1,41 @@
+// === FIX: RESET ALL MODALS ON PAGE LOAD ===
+window.addEventListener('load', function() {
+    console.log('Page fully loaded - resetting all modals');
+    
+    // Close user panel
+    const userPanel = document.getElementById('user-panel');
+    if (userPanel) {
+        userPanel.classList.remove('active');
+        console.log('User panel closed');
+    }
+    
+    // Close cart sidebar
+    const cartSidebar = document.getElementById('cart-sidebar');
+    if (cartSidebar) {
+        cartSidebar.classList.remove('active');
+        console.log('Cart sidebar closed');
+    }
+    
+    // Close overlay
+    const overlay = document.getElementById('overlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+        console.log('Overlay closed');
+    }
+    
+    // Reset body overflow
+    document.body.style.overflow = '';
+    
+    // Close search bar
+    const searchBar = document.getElementById('search-bar');
+    if (searchBar) {
+        searchBar.classList.remove('active');
+        console.log('Search bar closed');
+    }
+    
+    console.log('All modals reset successfully');
+});
+
 // Animasi Scroll
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Script.js loaded successfully'); // Debug
@@ -244,12 +282,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Buka panel user untuk login
                     const userPanel = document.getElementById('user-panel');
-                    const overlay = document.getElementById('overlay');
-                    if (userPanel && overlay) {
-                        userPanel.classList.add('active');
-                        overlay.classList.add('active');
-                        document.body.style.overflow = 'hidden';
-                    }
                     return; // Hentikan eksekusi
                 }
                 
@@ -327,22 +359,24 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCart();
 });
 
-// User Panel Functionality
+// User Panel Functionality - FIXED VERSION
 document.addEventListener('DOMContentLoaded', function() {
     const userIcon = document.getElementById('user-icon');
     const userPanel = document.getElementById('user-panel');
     const closeUser = document.getElementById('close-user');
-    const loginForm = document.getElementById('login-form');
-    const userMenu = document.getElementById('user-menu');
-    const loginBtn = document.getElementById('login-btn');
-    const logoutBtn = document.getElementById('logout-btn');
-    const registerLink = document.getElementById('register-link');
+    const overlay = document.getElementById('overlay');
 
-    let isLoggedIn = false;
+    // Pastikan panel tertutup saat halaman dimuat
+    if (userPanel) userPanel.classList.remove('active');
+    if (overlay) overlay.classList.remove('active');
+    document.body.style.overflow = '';
 
-    // Open user panel
+    // Open user panel HANYA ketika ikon user diklik
     if (userIcon && userPanel && overlay) {
-        userIcon.addEventListener('click', function() {
+        userIcon.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('User icon clicked - opening panel');
             userPanel.classList.add('active');
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -351,10 +385,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close user panel
     if (closeUser && userPanel && overlay) {
-        closeUser.addEventListener('click', function() {
+        closeUser.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Close user panel clicked');
             userPanel.classList.remove('active');
             overlay.classList.remove('active');
             document.body.style.overflow = '';
+        });
+    }
+
+    // Close user panel when clicking overlay
+    if (overlay && userPanel) {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                console.log('Overlay clicked - closing panels');
+                userPanel.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         });
     }
 
@@ -740,3 +789,23 @@ function initializeMobileNavigation() {
         });
     });
 }
+
+// Debugging - Check why user panel opens
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded - checking user panel state');
+    
+    const userPanel = document.getElementById('user-panel');
+    const overlay = document.getElementById('overlay');
+    
+    if (userPanel && userPanel.classList.contains('active')) {
+        console.warn('WARNING: User panel was active on page load! Closing it...');
+        userPanel.classList.remove('active');
+    }
+    
+    if (overlay && overlay.classList.contains('active')) {
+        console.warn('WARNING: Overlay was active on page load! Closing it...');
+        overlay.classList.remove('active');
+    }
+    
+    document.body.style.overflow = '';
+});
