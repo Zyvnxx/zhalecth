@@ -148,8 +148,16 @@ document.addEventListener('DOMContentLoaded', function() {
         cartItemsContainer.innerHTML = '';
         let total = 0;
 
+        const checkoutBtn = document.querySelector('.cart-actions a[href="payment.html"]'); // ambil tombol checkout
+
         if (cart.length === 0) {
             cartItemsContainer.innerHTML = '<div class="empty-cart-message"><p>Keranjang belanja Anda kosong</p></div>';
+            // Nonaktifkan tombol checkout
+            if (checkoutBtn) {
+                checkoutBtn.classList.add('disabled');
+                checkoutBtn.style.pointerEvents = 'none';
+                checkoutBtn.style.opacity = '0.5';
+            }
         } else {
             cart.forEach((item, index) => {
                 total += item.price * item.quantity;
@@ -171,13 +179,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 cartItemsContainer.appendChild(cartItem);
             });
+
+            // Aktifkan tombol checkout
+            if (checkoutBtn) {
+                checkoutBtn.classList.remove('disabled');
+                checkoutBtn.style.pointerEvents = 'auto';
+                checkoutBtn.style.opacity = '1';
+            }
         }
 
         cartTotal.textContent = `Rp ${total.toLocaleString()}`;
-        
-        // Save cart to localStorage
         localStorage.setItem('zhalecthCart', JSON.stringify(cart));
-        
+
         attachCartEvents();
     }
 
@@ -217,11 +230,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Add to cart functionality
+    // Add to cart functionality dengan pengecekan login
     if (addToCartButtons.length > 0) {
         addToCartButtons.forEach(btn => {
             btn.addEventListener('click', e => {
                 e.preventDefault();
+                
+                // Cek apakah user sudah login
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (!currentUser) {
+                    // Jika belum login, tampilkan pesan dan buka panel user
+                    showMessage('login untuk menambahkan produk ke keranjang', 'error');
+                    
+                    // Buka panel user untuk login
+                    const userPanel = document.getElementById('user-panel');
+                    const overlay = document.getElementById('overlay');
+                    if (userPanel && overlay) {
+                        userPanel.classList.add('active');
+                        overlay.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                    return; // Hentikan eksekusi
+                }
+                
+                // Lanjutkan proses add to cart jika sudah login
                 const name = btn.dataset.name;
                 const price = parseInt(btn.dataset.price);
                 const image = btn.dataset.image;
@@ -434,22 +466,29 @@ function loginUser(email, password) {
     const user = users.find(u => u.email === email && u.password === password);
     
     if (user) {
-        // Save current user session
+        // Jika login berhasil
         localStorage.setItem('currentUser', JSON.stringify(user));
         updateUserPanel(true, user);
+        updateBuyButtons(); // Update tombol beli
         showMessage(`Selamat datang, ${user.username}!`, 'success');
         
-        // Clear form fields
+        // Bersihkan input form
         document.getElementById('email').value = '';
         document.getElementById('password').value = '';
     } else {
+        // Jika login gagal
         showMessage('Email atau password salah', 'error');
+        
+        // Pastikan tampilan tetap di halaman login
+        updateUserPanel(false);
+        updateBuyButtons(); // Update tombol beli
     }
 }
 
 function logoutUser() {
     localStorage.removeItem('currentUser');
     updateUserPanel(false);
+    updateBuyButtons(); // Update tombol beli
     showMessage('Anda telah logout', 'info');
 }
 
@@ -469,6 +508,9 @@ function updateUserPanel(isLoggedIn, userData = null) {
                 <p>${userData.email}</p>
             `;
         }
+        
+        // Aktifkan tombol beli
+        updateBuyButtons();
     } else {
         // User not logged in
         if (loginForm) loginForm.style.display = 'block';
@@ -479,6 +521,9 @@ function updateUserPanel(isLoggedIn, userData = null) {
                 <p>guest@example.com</p>
             `;
         }
+        
+        // Nonaktifkan tombol beli
+        updateBuyButtons();
     }
 }
 
@@ -536,7 +581,162 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Fungsi untuk update status tombol beli berdasarkan login
+function updateBuyButtons() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const buyButtons = document.querySelectorAll('.add-to-cart');
+    
+    if (currentUser) {
+        // User sudah login - aktifkan semua tombol
+        buyButtons.forEach(btn => {
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+            btn.disabled = false;
+        });
+    } else {
+        // User belum login - nonaktifkan semua tombol
+        buyButtons.forEach(btn => {
+            btn.style.opacity = '0.6';
+            btn.style.cursor = 'not-allowed';
+            btn.disabled = true;
+        });
+    }
+}
+
+// Update tombol beli saat halaman dimuat
+document.addEventListener('DOMContentLoaded', function() {
+    updateBuyButtons();
+    
+    // Update tombol beli saat status login berubah
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'currentUser') {
+            updateBuyButtons();
+        }
+    });
+});
+
 // Initialize auth system when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeAuthSystem();
 });
+
+// ========== MOBILE-SPECIFIC IMPROVEMENTS ==========
+
+// Mobile-specific improvements
+document.addEventListener('DOMContentLoaded', function() {
+    // Detect mobile device
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+        // Optimize for mobile
+        optimizeForMobile();
+    }
+    
+    // Improve touch experience
+    improveTouchExperience();
+    
+    // Initialize mobile navigation
+    initializeMobileNavigation();
+});
+
+function optimizeForMobile() {
+    // Reduce particle effects on mobile for better performance
+    if (typeof particlesJS !== 'undefined') {
+        particlesJS("particles-js", {
+            particles: {
+                number: {
+                    value: 30, // Reduced from 80
+                    density: {
+                        enable: true,
+                        value_area: 400 // Reduced from 800
+                    }
+                }
+            }
+        });
+    }
+    
+    // Add mobile-specific classes
+    document.body.classList.add('mobile-device');
+}
+
+function improveTouchExperience() {
+    // Prevent zoom on double tap for buttons
+    const interactiveElements = document.querySelectorAll('.btn, .nav-icons i, .add-to-cart');
+    
+    interactiveElements.forEach(element => {
+        element.addEventListener('touchstart', function() {
+            // Add visual feedback
+            this.style.transform = 'scale(0.95)';
+        });
+        
+        element.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+    
+    // Improve scroll performance
+    document.addEventListener('touchmove', function(e) {
+        // Allow native scrolling
+    }, { passive: true });
+}
+
+// Mobile navigation functionality
+function initializeMobileNavigation() {
+    const hamburger = document.querySelector('.hamburger');
+    const mobileNav = document.createElement('div');
+    mobileNav.className = 'mobile-nav';
+    mobileNav.innerHTML = `
+        <button class="close-mobile-nav">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul class="mobile-nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#products">Product</a></li>
+            <li><a href="#features">Feature</a></li>
+            <li><a href="#testimonials">Testimonial</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    `;
+    
+    document.body.appendChild(mobileNav);
+    
+    const closeMobileNav = mobileNav.querySelector('.close-mobile-nav');
+    const overlay = document.getElementById('overlay');
+    
+    // Open mobile nav
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            mobileNav.classList.add('active');
+            if (overlay) overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+    
+    // Close mobile nav
+    if (closeMobileNav) {
+        closeMobileNav.addEventListener('click', function() {
+            mobileNav.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
+    
+    // Close mobile nav when clicking overlay
+    if (overlay) {
+        overlay.addEventListener('click', function() {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
+    
+    // Close mobile nav when clicking links
+    const mobileNavLinks = mobileNav.querySelectorAll('.mobile-nav-links a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            mobileNav.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+}

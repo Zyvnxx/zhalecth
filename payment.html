@@ -83,113 +83,32 @@
             color: var(--accent);
         }
 
-       /* === MOBILE RESPONSIVE FOR PAYMENT === */
-@media (max-width: 480px) {
-    .container {
-        width: 95%;
-        padding: 0 15px;
-    }
+        /* Layout utama - formulir dan ringkasan */
+        .payment-form {
+            flex: 2;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
 
-    .payment-container {
-        flex-direction: column;
-        gap: 20px;
-        padding: 20px 0;
-    }
+        .order-summary {
+            flex: 1;
+            background: var(--white);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            align-self: flex-start;
+            position: sticky;
+            top: 100px;
+        }
 
-    .payment-form,
-    .order-summary {
-        flex: none;
-        padding: 20px;
-    }
-
-    .section-title {
-        font-size: 20px;
-        margin-bottom: 15px;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .form-control {
-        padding: 12px;
-        font-size: 16px; /* Prevent zoom on iOS */
-    }
-
-    .form-row {
-        flex-direction: column;
-        gap: 0;
-    }
-
-    /* Payment Methods Mobile */
-    .payment-option {
-        padding: 12px;
-    }
-
-    .payment-icon {
-        width: 35px;
-        height: 35px;
-        font-size: 18px;
-        margin-right: 12px;
-    }
-
-    .payment-name {
-        font-size: 14px;
-    }
-
-    .payment-desc {
-        font-size: 12px;
-    }
-
-    /* Order Summary Mobile */
-    .order-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-    }
-
-    .order-item-img {
-        margin-right: 0;
-        width: 80px;
-        height: 80px;
-    }
-
-    .order-item-name {
-        font-size: 16px;
-    }
-
-    .order-summary-line,
-    .order-total {
-        font-size: 14px;
-    }
-
-    /* Buttons Mobile */
-    .btn {
-        padding: 12px 20px;
-        font-size: 16px;
-    }
-
-    /* Modal Mobile */
-    .modal {
-        padding: 30px 20px;
-        width: 95%;
-    }
-
-    .modal-title {
-        font-size: 20px;
-    }
-}
-
-@media (max-width: 360px) {
-    .payment-form,
-    .order-summary {
-        padding: 15px;
-    }
-
-    .section-title {
-        font-size: 18px;
-    }
-}
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+        }
 
         /* Form Styles */
         .form-group {
@@ -439,19 +358,129 @@
             color: var(--accent);
         }
 
-        /* Responsive */
+        /* === MOBILE RESPONSIVE FOR PAYMENT === */
         @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 0 15px;
+            }
+
             .payment-container {
                 flex-direction: column;
+                gap: 20px;
+                padding: 20px 0;
             }
-            
-            .payment-form, .order-summary {
+
+            .payment-form,
+            .order-summary {
                 flex: none;
+                padding: 20px;
             }
-            
+
+            .section-title {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .form-control {
+                padding: 12px;
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+
             .form-row {
                 flex-direction: column;
                 gap: 0;
+            }
+
+            /* Payment Methods Mobile */
+            .payment-option {
+                padding: 12px;
+            }
+
+            .payment-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+                margin-right: 12px;
+            }
+
+            .payment-name {
+                font-size: 14px;
+            }
+
+            .payment-desc {
+                font-size: 12px;
+            }
+
+            /* Order Summary Mobile */
+            .order-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .order-item-img {
+                margin-right: 0;
+                width: 80px;
+                height: 80px;
+            }
+
+            .order-item-name {
+                font-size: 16px;
+            }
+
+            .order-summary-line,
+            .order-total {
+                font-size: 14px;
+            }
+
+            /* Buttons Mobile */
+            .btn {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+
+            /* Modal Mobile */
+            .modal {
+                padding: 30px 20px;
+                width: 95%;
+            }
+
+            .modal-title {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .payment-container {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .payment-form {
+                width: 100%;
+                order: 1;
+            }
+            
+            .order-summary {
+                width: 100%;
+                order: 2;
+                position: static;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .payment-form,
+            .order-summary {
+                padding: 15px;
+            }
+
+            .section-title {
+                font-size: 18px;
             }
         }
     </style>
@@ -545,6 +574,18 @@
                                 <div class="payment-desc">GoPay, OVO, DANA, LinkAja</div>
                             </div>
                         </div>
+                        
+                        <!-- Opsi QRIS -->
+                        <div class="payment-option" data-method="qris">
+                            <input type="radio" name="payment-method" id="qris-payment" class="payment-radio">
+                            <div class="payment-icon">
+                                <i class="fas fa-qrcode"></i>
+                            </div>
+                            <div class="payment-details">
+                                <div class="payment-name">QRIS (QR Code)</div>
+                                <div class="payment-desc">Bayar dengan scan QR code</div>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Credit Card Details -->
@@ -607,6 +648,22 @@
                         </div>
                     </div>
                     
+                    <!-- QRIS Details -->
+                    <div id="qris-details" class="payment-details-form" style="display: none;">
+                        <div class="form-group">
+                            <p>Scan QR code berikut untuk melakukan pembayaran:</p>
+                            <div id="qris-container" style="text-align: center; margin: 20px 0;">
+                                <div id="qris-code" style="background: white; padding: 20px; border-radius: 10px; display: inline-block;">
+                                    <!-- QR Code akan ditampilkan di sini -->
+                                </div>
+                                <div id="qris-info" style="margin-top: 15px;">
+                                    <p><strong>Total Pembayaran: <span id="qris-amount">Rp 0</span></strong></p>
+                                    <p>Gunakan aplikasi e-wallet atau mobile banking untuk scan QR code</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group" style="margin-top: 30px;">
                         <button type="submit" class="btn btn-success" id="pay-button">
                             <i class="fas fa-lock"></i> Bayar Sekarang
@@ -614,7 +671,7 @@
                     </div>
                 </form>
             </div>
-            
+
             <!-- Order Summary -->
             <div class="order-summary">
                 <h2 class="section-title">Ringkasan Pesanan</h2>
@@ -656,11 +713,11 @@
             <p class="modal-text">Terima kasih telah berbelanja di Zhalecth. Pesanan Anda sedang diproses dan akan dikirim segera.</p>
             <div style="display: flex; gap: 10px;">
                 <a href="azhalecth.html" class="btn">Kembali ke Beranda</a>
-                <a href="#@" class="btn" style="background: var(--light); color: var(--primary);">Lihat Pesanan</a>
+                <a href="orders.html" class="btn" style="background: var(--light); color: var(--primary);">Lihat Pesanan</a>
             </div>
         </div>
     </div>
 
-<script src="payment.js"></script>
+    <script src="payment.js"></script>
 </body>
 </html>

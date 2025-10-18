@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zhalecth - Pesanan Saya</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #333333;
+            --accent: #666666;
+            --light: #f5f5f5;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .back-link {
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        /* Main Content */
+        main {
+            padding: 40px 0;
+            min-height: 70vh;
+        }
+
+        .page-title {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .page-subtitle {
+            color: var(--secondary);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Orders Section */
+        .orders-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .order-card {
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .order-header {
+            background: var(--light);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .order-id {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        .order-date {
+            color: var(--accent);
+            font-size: 14px;
+        }
+
+        .order-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: var(--success);
+        }
+
+        .status-processing {
+            background: #fff3cd;
+            color: var(--warning);
+        }
+
+        .status-shipped {
+            background: #cce7ff;
+            color: #007bff;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: var(--danger);
+        }
+
+        .order-items {
+            padding: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item-img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .order-item-details {
+            flex: 1;
+        }
+
+        .order-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .order-item-price {
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .order-item-quantity {
+            font-size: 14px;
+            color: var(--secondary);
+        }
+
+        .order-footer {
+            padding: 20px;
+            background: var(--light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+        }
+
+        .order-total {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Empty State */
+        .empty-orders {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--accent);
+        }
+
+        .empty-orders i {
+            font-size: 80px;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+
+        .empty-orders h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .empty-orders p {
+            margin-bottom: 30px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Filter Section */
+        .orders-filter {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: var(--white);
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        /* === MOBILE RESPONSIVE === */
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                padding: 0 15px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .page-subtitle {
+                font-size: 14px;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .order-status {
+                align-self: flex-start;
+            }
+
+            .order-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .order-item-img {
+                margin-right: 0;
+                width: 100px;
+                height: 100px;
+            }
+
+            .order-footer {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .order-actions {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .btn {
+                flex: 1;
+                max-width: 150px;
+            }
+
+            .orders-filter {
+                gap: 5px;
+            }
+
+            .filter-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .order-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="azhalecth.html" class="logo">ZHALE<span>CTH</span></a>
+                <a href="azhalecth.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Kembali ke Beranda
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <h1 class="page-title">Pesanan Saya</h1>
+            <p class="page-subtitle">Lihat riwayat dan status pesanan Anda</p>
+
+            <!-- Filter Options -->
+            <div class="orders-filter">
+                <button class="filter-btn active" data-filter="all">Semua</button>
+                <button class="filter-btn" data-filter="processing">Diproses</button>
+                <button class="filter-btn" data-filter="shipped">Dikirim</button>
+                <button class="filter-btn" data-filter="completed">Selesai</button>
+                <button class="filter-btn" data-filter="cancelled">Dibatalkan</button>
+            </div>
+
+            <!-- Orders Container -->
+            <div class="orders-container" id="orders-container">
+                <!-- Orders will be populated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ordersContainer = document.getElementById('orders-container');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            let allOrders = [];
+
+            // Load orders from localStorage
+            function loadOrders() {
+                const orders = JSON.parse(localStorage.getItem('zhalecthOrders')) || [];
+                allOrders = orders;
+                displayOrders('all');
+            }
+
+            // Display orders based on filter
+            function displayOrders(filter) {
+                ordersContainer.innerHTML = '';
+
+                const filteredOrders = filter === 'all' 
+                    ? allOrders 
+                    : allOrders.filter(order => order.status === filter);
+
+                if (filteredOrders.length === 0) {
+                    ordersContainer.innerHTML = `
+                        <div class="empty-orders">
+                            <i class="fas fa-shopping-bag"></i>
+                            <h3>Belum ada pesanan</h3>
+                            <p>Anda belum melakukan pembelian apapun. Yuk mulai berbelanja produk keren dari Zhalecth!</p>
+                            <a href="azhalecth.html" class="btn">Mulai Berbelanja</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Sort orders by date (newest first)
+                filteredOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                filteredOrders.forEach(order => {
+                    const orderElement = createOrderElement(order);
+                    ordersContainer.appendChild(orderElement);
+                });
+            }
+
+            // Create order element
+            function createOrderElement(order) {
+                const orderCard = document.createElement('div');
+                orderCard.className = 'order-card';
+                
+                // Format date
+                const orderDate = new Date(order.date).toLocaleDateString('id-ID', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                // Calculate total
+                const total = order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+                // Status class
+                const statusClass = `status-${order.status}`;
+
+                orderCard.innerHTML = `
+                    <div class="order-header">
+                        <div class="order-info">
+                            <div class="order-id">Pesanan #${order.id}</div>
+                            <div class="order-date">${orderDate}</div>
+                        </div>
+                        <div class="order-status ${statusClass}">${getStatusText(order.status)}</div>
+                    </div>
+                    <div class="order-items">
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <img src="${item.image}" alt="${item.name}" class="order-item-img">
+                                <div class="order-item-details">
+                                    <div class="order-item-name">${item.name}</div>
+                                    <div class="order-item-price">Rp ${item.price.toLocaleString()}</div>
+                                    <div class="order-item-quantity">Jumlah: ${item.quantity}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="order-footer">
+                        <div class="order-total">Total: Rp ${total.toLocaleString()}</div>
+                        <div class="order-actions">
+                            ${order.status === 'completed' ? `
+                                <button class="btn btn-outline" onclick="buyAgain('${order.id}')">
+                                    <i class="fas fa-redo"></i> Beli Lagi
+                                </button>
+                            ` : ''}
+                            <button class="btn btn-outline" onclick="viewOrderDetails('${order.id}')">
+                                <i class="fas fa-eye"></i> Detail
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                return orderCard;
+            }
+
+            // Get status text in Indonesian
+            function getStatusText(status) {
+                const statusMap = {
+                    'processing': 'Diproses',
+                    'shipped': 'Dikirim',
+                    'completed': 'Selesai',
+                    'cancelled': 'Dibatalkan'
+                };
+                return statusMap[status] || status;
+            }
+
+            // Filter functionality
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const filter = this.getAttribute('data-filter');
+                    displayOrders(filter);
+                });
+            });
+
+            // Initialize
+            loadOrders();
+        });
+
+        // View order details
+        function viewOrderDetails(orderId) {
+            alert(`Detail pesanan #${orderId} akan ditampilkan di sini.`);
+            // In a real application, you would navigate to a detailed order page
+        }
+
+        // Buy again functionality
+        function buyAgain(orderId) {
+            const orders = JSON.parse(localStorage.getItem('zhalecthOrders')) || [];
+            const order = orders.find(o => o.id === orderId);
+            
+            if (order) {
+                // Add items to cart
+                const cart = JSON.parse(localStorage.getItem('zhalecthCart')) || [];
+                
+                order.items.forEach(item => {
+                    const existingItemIndex = cart.findIndex(cartItem => cartItem.name === item.name);
+                    
+                    if (existingItemIndex !== -1) {
+                        cart[existingItemIndex].quantity += item.quantity;
+                    } else {
+                        cart.push({
+                            name: item.name,
+                            price: item.price,
+                            image: item.image,
+                            quantity: item.quantity
+                        });
+                    }
+                });
+                
+                localStorage.setItem('zhalecthCart', JSON.stringify(cart));
+                alert('Produk telah ditambahkan ke keranjang!');
+                
+                // Redirect to cart or products page
+                setTimeout(() => {
+                    window.location.href = 'azhalecth.html';
+                }, 1000);
+            }
+        }
+
+        // Function to create sample orders (for demo purposes)
+        function createSampleOrders() {
+            const sampleOrders = [
+                {
+                    id: 'ZH001',
+                    date: new Date().toISOString(),
+                    status: 'completed',
+                    items: [
+                        {
+                            name: 'T-shirt Boxy',
+                            price: 120000,
+                            image: 'https://image2url.com/images/1760354225465-db3e0ce7-7cfa-45f6-9503-267a03d1433a.png',
+                            quantity: 1
+                        }
+                    ]
+                },
+                {
+                    id: 'ZH002',
+                    date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+                    status: 'shipped',
+                    items: [
+                        {
+                            name: 'T-Shirt Whiteney',
+                            price: 130000,
+                            image: 'https://image2url.com/images/1760354416311-3598324f-7e7a-40bc-a210-3ef8a7f6e8b9.png',
+                            quantity: 2
+                        }
+                    ]
+                }
+            ];
+
+            // Only create sample orders if no orders exist
+            const existingOrders = JSON.parse(localStorage.getItem('zhalecthOrders')) || [];
+            if (existingOrders.length === 0) {
+                localStorage.setItem('zhalecthOrders', JSON.stringify(sampleOrders));
+            }
+        }
+
+        // Create sample orders on first load (for demo)
+        createSampleOrders();
+
+    </script>
+</body>
+</html>
+[file content end]
