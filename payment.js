@@ -17,25 +17,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize order summary
     function initializeOrderSummary() {
-        // Clear existing items
-        orderItemsContainer.innerHTML = '';
+    // Clear existing items safely
+    orderItemsContainer.textContent = '';
         
         // Check if cart is empty
         if (cartItems.length === 0) {
-            orderItemsContainer.innerHTML = `
-                <div class="empty-cart-message">
-                    <i class="fas fa-shopping-cart"></i>
-                    <p>Keranjang belanja Anda kosong</p>
-                    <a href="azhalecth.html" class="btn" style="margin-top: 20px; width: auto;">Kembali Berbelanja</a>
-                </div>
-            `;
+            const emptyDiv = document.createElement('div');
+            emptyDiv.className = 'empty-cart-message';
+
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-shopping-cart';
+            emptyDiv.appendChild(icon);
+
+            const p = document.createElement('p');
+            p.textContent = 'Keranjang belanja Anda kosong';
+            emptyDiv.appendChild(p);
+
+            const a = document.createElement('a');
+            a.href = 'azhalecth.html';
+            a.className = 'btn';
+            a.style.marginTop = '20px';
+            a.style.width = 'auto';
+            a.textContent = 'Kembali Berbelanja';
+            emptyDiv.appendChild(a);
+
+            orderItemsContainer.appendChild(emptyDiv);
             
             // Disable payment form if cart is empty
             paymentForm.querySelectorAll('input, textarea, button, select').forEach(element => {
                 element.disabled = true;
             });
             
-            payButton.innerHTML = '<i class="fas fa-lock"></i> Keranjang Kosong';
+            payButton.textContent = '';
+            const lockIcon = document.createElement('i');
+            lockIcon.className = 'fas fa-lock';
+            payButton.appendChild(lockIcon);
+            payButton.appendChild(document.createTextNode(' Keranjang Kosong'));
             payButton.disabled = true;
             
             return;
@@ -50,14 +67,33 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const orderItem = document.createElement('div');
             orderItem.className = 'order-item';
-            orderItem.innerHTML = `
-                <img src="${item.image}" alt="${item.name}" class="order-item-img">
-                <div class="order-item-details">
-                    <div class="order-item-name">${item.name}</div>
-                    <div class="order-item-price">Rp ${item.price.toLocaleString()}</div>
-                    <div class="order-item-quantity">Jumlah: ${item.quantity}</div>
-                </div>
-            `;
+
+            const img = document.createElement('img');
+            img.className = 'order-item-img';
+            img.src = item.image || '';
+            img.alt = item.name || '';
+            orderItem.appendChild(img);
+
+            const details = document.createElement('div');
+            details.className = 'order-item-details';
+
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'order-item-name';
+            nameDiv.textContent = item.name;
+
+            const priceDiv = document.createElement('div');
+            priceDiv.className = 'order-item-price';
+            priceDiv.textContent = `Rp ${item.price.toLocaleString()}`;
+
+            const qtyDiv = document.createElement('div');
+            qtyDiv.className = 'order-item-quantity';
+            qtyDiv.textContent = `Jumlah: ${item.quantity}`;
+
+            details.appendChild(nameDiv);
+            details.appendChild(priceDiv);
+            details.appendChild(qtyDiv);
+
+            orderItem.appendChild(details);
             orderItemsContainer.appendChild(orderItem);
         });
         
@@ -125,7 +161,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Show loading state
-        payButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+    payButton.textContent = '';
+    const spinner = document.createElement('i');
+    spinner.className = 'fas fa-spinner fa-spin';
+    payButton.appendChild(spinner);
+    payButton.appendChild(document.createTextNode(' Memproses...'));
         payButton.disabled = true;
         
         // Simulate payment processing
@@ -143,7 +183,11 @@ document.addEventListener('DOMContentLoaded', function() {
             showSuccessModal(orderData);
             
             // Reset button
-            payButton.innerHTML = '<i class="fas fa-lock"></i> Bayar Sekarang';
+            payButton.textContent = '';
+            const lockIcon2 = document.createElement('i');
+            lockIcon2.className = 'fas fa-lock';
+            payButton.appendChild(lockIcon2);
+            payButton.appendChild(document.createTextNode(' Bayar Sekarang'));
             payButton.disabled = false;
         }, 2000);
     });
@@ -184,38 +228,97 @@ document.addEventListener('DOMContentLoaded', function() {
         if (receipt) {
             // Update modal content with receipt info
             const modalContent = successModal.querySelector('.modal');
-            modalContent.innerHTML = `
-                <div class="modal-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <h2 class="modal-title">Pembayaran Berhasil!</h2>
-                <div class="receipt-info" style="text-align: left; margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                    <h4 style="margin-bottom: 15px; color: #333;">Informasi Pengiriman:</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 14px;">
-                        <div><strong>No. Resi:</strong></div>
-                        <div>${receipt.receiptNumber}</div>
-                        
-                        <div><strong>Kurir:</strong></div>
-                        <div>${receipt.courier.name}</div>
-                        
-                        <div><strong>Layanan:</strong></div>
-                        <div>${receipt.courier.service}</div>
-                        
-                        <div><strong>Estimasi Tiba:</strong></div>
-                        <div>${new Date(receipt.shipping.estimatedDelivery).toLocaleDateString('id-ID')}</div>
-                    </div>
-                </div>
-                <p class="modal-text">Terima kasih telah berbelanja di Zhalecth. Pesanan Anda sedang diproses dan akan dikirim segera.</p>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <a href="azhalecth.html" class="btn">Kembali ke Beranda</a>
-                    <a href="receipt.html?receipt=${receipt.receiptNumber}" class="btn" style="background: var(--light); color: var(--primary);">
-                        <i class="fas fa-receipt"></i> Lihat Resi
-                    </a>
-                    <a href="orders.html" class="btn" style="background: #28a745; color: white;">
-                        <i class="fas fa-shopping-bag"></i> Lihat Pesanan
-                    </a>
-                </div>
-            `;
+            // Clear previous content
+            modalContent.textContent = '';
+
+            const iconDiv = document.createElement('div');
+            iconDiv.className = 'modal-icon';
+            const okIcon = document.createElement('i');
+            okIcon.className = 'fas fa-check-circle';
+            iconDiv.appendChild(okIcon);
+
+            const title = document.createElement('h2');
+            title.className = 'modal-title';
+            title.textContent = 'Pembayaran Berhasil!';
+
+            const receiptInfo = document.createElement('div');
+            receiptInfo.className = 'receipt-info';
+            receiptInfo.style.cssText = 'text-align: left; margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;';
+
+            const h4 = document.createElement('h4');
+            h4.style.marginBottom = '15px';
+            h4.style.color = '#333';
+            h4.textContent = 'Informasi Pengiriman:';
+            receiptInfo.appendChild(h4);
+
+            const grid = document.createElement('div');
+            grid.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 14px;';
+
+            const labels = ['No. Resi:', 'Kurir:', 'Layanan:', 'Estimasi Tiba:'];
+            const values = [
+                receipt.receiptNumber,
+                receipt.courier.name,
+                receipt.courier.service,
+                new Date(receipt.shipping.estimatedDelivery).toLocaleDateString('id-ID')
+            ];
+
+            for (let i = 0; i < labels.length; i++) {
+                const lab = document.createElement('div');
+                lab.textContent = '';
+                const strong = document.createElement('strong');
+                strong.textContent = labels[i];
+                lab.appendChild(strong);
+                const val = document.createElement('div');
+                val.textContent = values[i] || '';
+                grid.appendChild(lab);
+                grid.appendChild(val);
+            }
+
+            receiptInfo.appendChild(grid);
+
+            const modalText = document.createElement('p');
+            modalText.className = 'modal-text';
+            modalText.textContent = 'Terima kasih telah berbelanja di Zhalecth. Pesanan Anda sedang diproses dan akan dikirim segera.';
+
+            const actionsDiv = document.createElement('div');
+            actionsDiv.style.cssText = 'display: flex; gap: 10px; flex-wrap: wrap;';
+
+            const aHome = document.createElement('a');
+            aHome.href = 'azhalecth.html';
+            aHome.className = 'btn';
+            aHome.textContent = 'Kembali ke Beranda';
+
+            const aReceipt = document.createElement('a');
+            aReceipt.href = `receipt.html?receipt=${encodeURIComponent(receipt.receiptNumber)}`;
+            aReceipt.className = 'btn';
+            aReceipt.style.background = 'var(--light)';
+            aReceipt.style.color = 'var(--primary)';
+            aReceipt.textContent = '';
+            const recIcon = document.createElement('i');
+            recIcon.className = 'fas fa-receipt';
+            aReceipt.appendChild(recIcon);
+            aReceipt.appendChild(document.createTextNode(' Lihat Resi'));
+
+            const aOrders = document.createElement('a');
+            aOrders.href = 'orders.html';
+            aOrders.className = 'btn';
+            aOrders.style.background = '#28a745';
+            aOrders.style.color = 'white';
+            aOrders.textContent = '';
+            const bagIcon = document.createElement('i');
+            bagIcon.className = 'fas fa-shopping-bag';
+            aOrders.appendChild(bagIcon);
+            aOrders.appendChild(document.createTextNode(' Lihat Pesanan'));
+
+            actionsDiv.appendChild(aHome);
+            actionsDiv.appendChild(aReceipt);
+            actionsDiv.appendChild(aOrders);
+
+            modalContent.appendChild(iconDiv);
+            modalContent.appendChild(title);
+            modalContent.appendChild(receiptInfo);
+            modalContent.appendChild(modalText);
+            modalContent.appendChild(actionsDiv);
         }
         
         successModal.classList.add('active');
@@ -302,8 +405,8 @@ class QRISPayment {
         const container = document.getElementById(containerId);
         if (!container) return;
 
-        // Clear previous QR code
-        container.innerHTML = '';
+    // Clear previous QR code safely
+    container.textContent = '';
 
         // Create canvas for QR code
         const canvas = document.createElement('canvas');
@@ -329,11 +432,21 @@ class QRISPayment {
             font-size: 12px;
             text-align: center;
         `;
-        infoDiv.innerHTML = `
-            <div><strong>${this.qrisData.merchantName}</strong></div>
-            <div>${this.qrisData.merchantCity}</div>
-            <div>Order: ${this.qrisData.orderId}</div>
-        `;
+        // Build merchant info safely
+        const mnDiv = document.createElement('div');
+        const mnStrong = document.createElement('strong');
+        mnStrong.textContent = this.qrisData.merchantName || '';
+        mnDiv.appendChild(mnStrong);
+
+        const cityDiv = document.createElement('div');
+        cityDiv.textContent = this.qrisData.merchantCity || '';
+
+        const orderDiv = document.createElement('div');
+        orderDiv.textContent = `Order: ${this.qrisData.orderId || ''}`;
+
+        infoDiv.appendChild(mnDiv);
+        infoDiv.appendChild(cityDiv);
+        infoDiv.appendChild(orderDiv);
         container.appendChild(infoDiv);
     }
 

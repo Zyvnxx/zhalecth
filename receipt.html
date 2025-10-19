@@ -490,19 +490,31 @@
             }
 
             function displayReceipts(receipts) {
-                receiptsContainer.innerHTML = '';
+                receiptsContainer.textContent = '';
 
                 if (receipts.length === 0) {
-                    receiptsContainer.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-receipt"></i>
-                            <h3>Tidak ada resi ditemukan</h3>
-                            <p>Belum ada resi pengiriman atau pencarian tidak ditemukan.</p>
-                            <a href="orders.html" class="btn" style="margin-top: 20px;">
-                                <i class="fas fa-shopping-bag"></i> Lihat Pesanan Saya
-                            </a>
-                        </div>
-                    `;
+                    const emptyState = document.createElement('div');
+                    emptyState.className = 'empty-state';
+                    const icon = document.createElement('i');
+                    icon.className = 'fas fa-receipt';
+                    emptyState.appendChild(icon);
+                    const h3 = document.createElement('h3');
+                    h3.textContent = 'Tidak ada resi ditemukan';
+                    emptyState.appendChild(h3);
+                    const p = document.createElement('p');
+                    p.textContent = 'Belum ada resi pengiriman atau pencarian tidak ditemukan.';
+                    emptyState.appendChild(p);
+                    const a = document.createElement('a');
+                    a.href = 'orders.html';
+                    a.className = 'btn';
+                    a.style.marginTop = '20px';
+                    a.textContent = '';
+                    const bagIcon = document.createElement('i');
+                    bagIcon.className = 'fas fa-shopping-bag';
+                    a.appendChild(bagIcon);
+                    a.appendChild(document.createTextNode(' Lihat Pesanan Saya'));
+                    emptyState.appendChild(a);
+                    receiptsContainer.appendChild(emptyState);
                     return;
                 }
 
@@ -511,7 +523,7 @@
 
                 receipts.forEach(receipt => {
                     const receiptElement = createReceiptElement(receipt);
-                    receiptsContainer.appendChild(receiptElement);
+                        receiptsContainer.appendChild(receiptElement);
                 });
             }
 
@@ -534,96 +546,167 @@
                     day: 'numeric'
                 });
 
-                receiptCard.innerHTML = `
-                    <div class="receipt-header">
-                        <div class="receipt-info">
-                            <h3>Resi Pengiriman</h3>
-                            <div class="receipt-number">${receipt.receiptNumber}</div>
-                        </div>
-                        <div class="receipt-status status-${receipt.status}">
-                            ${getStatusText(receipt.status)}
-                        </div>
-                    </div>
-                    
-                    <div class="receipt-body">
-                        <div class="receipt-grid">
-                            <div class="info-section">
-                                <h4>Informasi Pengiriman</h4>
-                                <div class="info-item">
-                                    <span class="info-label">Kurir</span>
-                                    <span class="info-value">${receipt.courier.name} - ${receipt.courier.service}</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Berat</span>
-                                    <span class="info-value">${receipt.shipping.weight} kg</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Ongkos Kirim</span>
-                                    <span class="info-value">Rp ${receipt.shipping.cost.toLocaleString()}</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Estimasi Tiba</span>
-                                    <span class="info-value">${estimatedDelivery}</span>
-                                </div>
-                            </div>
-                            
-                            <div class="info-section">
-                                <h4>Informasi Penerima</h4>
-                                <div class="info-item">
-                                    <span class="info-label">Nama</span>
-                                    <span class="info-value">${receipt.receiver.name}</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Alamat</span>
-                                    <span class="info-value">${receipt.receiver.address}</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Kota</span>
-                                    <span class="info-value">${receipt.receiver.city}</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Telepon</span>
-                                    <span class="info-value">${receipt.receiver.phone}</span>
-                                </div>
-                            </div>
-                        </div>
+                // Build receipt card safely
+                const header = document.createElement('div');
+                header.className = 'receipt-header';
 
-                        <div class="tracking-timeline">
-                            <h4 class="timeline-title">Status Pengiriman</h4>
-                            <div class="timeline">
-                                ${receipt.statusHistory.map((status, index) => `
-                                    <div class="timeline-item ${index === 0 ? 'active' : ''}">
-                                        <div class="timeline-content">
-                                            <h5>${status.description}</h5>
-                                            <div class="timeline-meta">
-                                                <span>${new Date(status.timestamp).toLocaleDateString('id-ID', {
-                                                    year: 'numeric',
-                                                    month: 'short',
-                                                    day: 'numeric',
-                                                    hour: '2-digit',
-                                                    minute: '2-digit'
-                                                })}</span>
-                                                <span>${status.location}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'receipt-info';
+                const h3 = document.createElement('h3');
+                h3.textContent = 'Resi Pengiriman';
+                const rn = document.createElement('div');
+                rn.className = 'receipt-number';
+                rn.textContent = receipt.receiptNumber;
+                infoDiv.appendChild(h3);
+                infoDiv.appendChild(rn);
 
-                        <div class="receipt-actions">
-                            <a href="${receipt.courier.trackingUrl}" target="_blank" class="btn btn-outline">
-                                <i class="fas fa-external-link-alt"></i> Lacak di ${receipt.courier.name}
-                            </a>
-                            <button class="btn" onclick="downloadReceipt('${receipt.receiptNumber}')">
-                                <i class="fas fa-download"></i> Download Resi
-                            </button>
-                            <a href="orders.html" class="btn btn-success">
-                                <i class="fas fa-shopping-bag"></i> Lihat Pesanan
-                            </a>
-                        </div>
-                    </div>
-                `;
+                const statusDiv = document.createElement('div');
+                statusDiv.className = `receipt-status status-${receipt.status}`;
+                statusDiv.textContent = getStatusText(receipt.status);
+
+                header.appendChild(infoDiv);
+                header.appendChild(statusDiv);
+
+                const body = document.createElement('div');
+                body.className = 'receipt-body';
+
+                const grid = document.createElement('div');
+                grid.className = 'receipt-grid';
+
+                const shipSection = document.createElement('div');
+                shipSection.className = 'info-section';
+                const shipH4 = document.createElement('h4');
+                shipH4.textContent = 'Informasi Pengiriman';
+                shipSection.appendChild(shipH4);
+
+                const fields = [
+                    ['Kurir', `${receipt.courier.name} - ${receipt.courier.service}`],
+                    ['Berat', `${receipt.shipping.weight} kg`],
+                    ['Ongkos Kirim', `Rp ${receipt.shipping.cost.toLocaleString()}`],
+                    ['Estimasi Tiba', estimatedDelivery]
+                ];
+                fields.forEach(f => {
+                    const item = document.createElement('div');
+                    item.className = 'info-item';
+                    const label = document.createElement('span');
+                    label.className = 'info-label';
+                    label.textContent = f[0];
+                    const value = document.createElement('span');
+                    value.className = 'info-value';
+                    value.textContent = f[1];
+                    item.appendChild(label);
+                    item.appendChild(value);
+                    shipSection.appendChild(item);
+                });
+
+                const recvSection = document.createElement('div');
+                recvSection.className = 'info-section';
+                const recvH4 = document.createElement('h4');
+                recvH4.textContent = 'Informasi Penerima';
+                recvSection.appendChild(recvH4);
+
+                const recvFields = [
+                    ['Nama', receipt.receiver.name],
+                    ['Alamat', receipt.receiver.address],
+                    ['Kota', receipt.receiver.city],
+                    ['Telepon', receipt.receiver.phone]
+                ];
+                recvFields.forEach(f => {
+                    const item = document.createElement('div');
+                    item.className = 'info-item';
+                    const label = document.createElement('span');
+                    label.className = 'info-label';
+                    label.textContent = f[0];
+                    const value = document.createElement('span');
+                    value.className = 'info-value';
+                    value.textContent = f[1];
+                    item.appendChild(label);
+                    item.appendChild(value);
+                    recvSection.appendChild(item);
+                });
+
+                grid.appendChild(shipSection);
+                grid.appendChild(recvSection);
+                body.appendChild(grid);
+
+                // Tracking timeline
+                const tracking = document.createElement('div');
+                tracking.className = 'tracking-timeline';
+                const tTitle = document.createElement('h4');
+                tTitle.className = 'timeline-title';
+                tTitle.textContent = 'Status Pengiriman';
+                tracking.appendChild(tTitle);
+
+                const timeline = document.createElement('div');
+                timeline.className = 'timeline';
+
+                receipt.statusHistory.forEach((status, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'timeline-item' + (index === 0 ? ' active' : '');
+                    const content = document.createElement('div');
+                    content.className = 'timeline-content';
+                    const h5 = document.createElement('h5');
+                    h5.textContent = status.description;
+                    const meta = document.createElement('div');
+                    meta.className = 'timeline-meta';
+                    const timeSpan = document.createElement('span');
+                    timeSpan.textContent = new Date(status.timestamp).toLocaleDateString('id-ID', {
+                        year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                    });
+                    const locSpan = document.createElement('span');
+                    locSpan.textContent = status.location;
+                    meta.appendChild(timeSpan);
+                    meta.appendChild(locSpan);
+                    content.appendChild(h5);
+                    content.appendChild(meta);
+                    item.appendChild(content);
+                    timeline.appendChild(item);
+                });
+
+                tracking.appendChild(timeline);
+                body.appendChild(tracking);
+
+                // Actions
+                const actions = document.createElement('div');
+                actions.className = 'receipt-actions';
+
+                const link = document.createElement('a');
+                link.href = receipt.courier.trackingUrl;
+                link.target = '_blank';
+                link.className = 'btn btn-outline';
+                link.textContent = '';
+                const extIcon = document.createElement('i');
+                extIcon.className = 'fas fa-external-link-alt';
+                link.appendChild(extIcon);
+                link.appendChild(document.createTextNode(' Lacak di ' + (receipt.courier.name || '')));
+
+                const dlBtn = document.createElement('button');
+                dlBtn.className = 'btn';
+                dlBtn.type = 'button';
+                dlBtn.addEventListener('click', function() { downloadReceipt(receipt.receiptNumber); });
+                dlBtn.textContent = '';
+                const dlIcon = document.createElement('i');
+                dlIcon.className = 'fas fa-download';
+                dlBtn.appendChild(dlIcon);
+                dlBtn.appendChild(document.createTextNode(' Download Resi'));
+
+                const ordersBtn = document.createElement('a');
+                ordersBtn.href = 'orders.html';
+                ordersBtn.className = 'btn btn-success';
+                ordersBtn.textContent = '';
+                const bagIcon = document.createElement('i');
+                bagIcon.className = 'fas fa-shopping-bag';
+                ordersBtn.appendChild(bagIcon);
+                ordersBtn.appendChild(document.createTextNode(' Lihat Pesanan'));
+
+                actions.appendChild(link);
+                actions.appendChild(dlBtn);
+                actions.appendChild(ordersBtn);
+
+                body.appendChild(actions);
+
+                receiptCard.appendChild(header);
+                receiptCard.appendChild(body);
 
                 return receiptCard;
             }

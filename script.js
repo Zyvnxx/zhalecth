@@ -183,13 +183,19 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateCart() {
         if (!cartItemsContainer || !cartTotal) return;
         
-        cartItemsContainer.innerHTML = '';
+    // Clear container safely
+    cartItemsContainer.textContent = '';
         let total = 0;
 
         const checkoutBtn = document.querySelector('.cart-actions a[href="payment.html"]'); // ambil tombol checkout
 
         if (cart.length === 0) {
-            cartItemsContainer.innerHTML = '<div class="empty-cart-message"><p>Keranjang belanja Anda kosong</p></div>';
+            const emptyMsg = document.createElement('div');
+            emptyMsg.className = 'empty-cart-message';
+            const p = document.createElement('p');
+            p.textContent = 'Keranjang belanja Anda kosong';
+            emptyMsg.appendChild(p);
+            cartItemsContainer.appendChild(emptyMsg);
             // Nonaktifkan tombol checkout
             if (checkoutBtn) {
                 checkoutBtn.classList.add('disabled');
@@ -202,19 +208,57 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const cartItem = document.createElement('div');
                 cartItem.classList.add('cart-item');
-                cartItem.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}">
-                    <div class="cart-item-details">
-                        <h4>${item.name}</h4>
-                        <p class="cart-item-price">Rp ${item.price.toLocaleString()}</p>
-                        <div class="quantity-controls">
-                            <button class="decrease-quantity" data-index="${index}">-</button>
-                            <span class="item-quantity">${item.quantity}</span>
-                            <button class="increase-quantity" data-index="${index}">+</button>
-                        </div>
-                    </div>
-                    <button class="remove-item" data-index="${index}"><i class="fas fa-trash"></i></button>
-                `;
+
+                const img = document.createElement('img');
+                img.src = item.image || '';
+                img.alt = item.name || '';
+                cartItem.appendChild(img);
+
+                const details = document.createElement('div');
+                details.className = 'cart-item-details';
+
+                const h4 = document.createElement('h4');
+                h4.textContent = item.name;
+
+                const priceEl = document.createElement('p');
+                priceEl.className = 'cart-item-price';
+                priceEl.textContent = `Rp ${item.price.toLocaleString()}`;
+
+                const qtyControls = document.createElement('div');
+                qtyControls.className = 'quantity-controls';
+
+                const decBtn = document.createElement('button');
+                decBtn.className = 'decrease-quantity';
+                decBtn.dataset.index = index;
+                decBtn.textContent = '-';
+
+                const qtySpan = document.createElement('span');
+                qtySpan.className = 'item-quantity';
+                qtySpan.textContent = item.quantity;
+
+                const incBtn = document.createElement('button');
+                incBtn.className = 'increase-quantity';
+                incBtn.dataset.index = index;
+                incBtn.textContent = '+';
+
+                qtyControls.appendChild(decBtn);
+                qtyControls.appendChild(qtySpan);
+                qtyControls.appendChild(incBtn);
+
+                details.appendChild(h4);
+                details.appendChild(priceEl);
+                details.appendChild(qtyControls);
+
+                cartItem.appendChild(details);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-item';
+                removeBtn.dataset.index = index;
+                const icon = document.createElement('i');
+                icon.className = 'fas fa-trash';
+                removeBtn.appendChild(icon);
+                cartItem.appendChild(removeBtn);
+
                 cartItemsContainer.appendChild(cartItem);
             });
 
@@ -552,10 +596,14 @@ function updateUserPanel(isLoggedIn, userData = null) {
         if (loginForm) loginForm.style.display = 'none';
         if (userMenu) userMenu.style.display = 'block';
         if (userDetails) {
-            userDetails.innerHTML = `
-                <h3>${userData.username}</h3>
-                <p>${userData.email}</p>
-            `;
+            // Safely set user details to avoid XSS
+            userDetails.textContent = '';
+            const h3 = document.createElement('h3');
+            h3.textContent = userData.username || '';
+            const p = document.createElement('p');
+            p.textContent = userData.email || '';
+            userDetails.appendChild(h3);
+            userDetails.appendChild(p);
         }
         
         // Aktifkan tombol beli
@@ -565,10 +613,13 @@ function updateUserPanel(isLoggedIn, userData = null) {
         if (loginForm) loginForm.style.display = 'block';
         if (userMenu) userMenu.style.display = 'none';
         if (userDetails) {
-            userDetails.innerHTML = `
-                <h3>Guest User</h3>
-                <p>guest@example.com</p>
-            `;
+            userDetails.textContent = '';
+            const h3 = document.createElement('h3');
+            h3.textContent = 'Guest User';
+            const p = document.createElement('p');
+            p.textContent = 'guest@example.com';
+            userDetails.appendChild(h3);
+            userDetails.appendChild(p);
         }
         
         // Nonaktifkan tombol beli
@@ -734,18 +785,34 @@ function initializeMobileNavigation() {
     const hamburger = document.querySelector('.hamburger');
     const mobileNav = document.createElement('div');
     mobileNav.className = 'mobile-nav';
-    mobileNav.innerHTML = `
-        <button class="close-mobile-nav">
-            <i class="fas fa-times"></i>
-        </button>
-        <ul class="mobile-nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#products">Product</a></li>
-            <li><a href="#features">Feature</a></li>
-            <li><a href="#testimonials">Testimonial</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    `;
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'close-mobile-nav';
+    const closeIcon = document.createElement('i');
+    closeIcon.className = 'fas fa-times';
+    closeBtn.appendChild(closeIcon);
+
+    const ul = document.createElement('ul');
+    ul.className = 'mobile-nav-links';
+    const links = [
+        { href: '#home', text: 'Home' },
+        { href: '#products', text: 'Product' },
+        { href: '#features', text: 'Feature' },
+        { href: '#testimonials', text: 'Testimonial' },
+        { href: '#contact', text: 'Contact' }
+    ];
+
+    links.forEach(l => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = l.href;
+        a.textContent = l.text;
+        li.appendChild(a);
+        ul.appendChild(li);
+    });
+
+    mobileNav.appendChild(closeBtn);
+    mobileNav.appendChild(ul);
     
     document.body.appendChild(mobileNav);
     
